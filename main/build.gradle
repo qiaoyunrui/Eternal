@@ -1,33 +1,62 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
 
+def dev_suffix = "dev"
+def app_name_release = "eternal"
+
+static def currentSecond() {
+    return new Date().format("ss", TimeZone.getTimeZone("GMT+8"))
+}
+
+static def currentTime() {
+    return new Date().format("yyyy_MM_dd", TimeZone.getTimeZone("GMT+8"))
+}
+
 android {
-    compileSdkVersion 27
+    compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "me.juhezi.eternal"
-        minSdkVersion 21
-        targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
+        applicationId rootProject.ext.mainApplicationId
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.globalVersionCode as int
+        versionName rootProject.ext.globalVersionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            resValue("string","app_name",app_name_release)
+            applicationVariants.all { variant ->
+                if (variant.buildType.name == 'release') {
+                    variant.outputs.all {
+                        if (outputFileName != null && outputFileName.endsWith('.apk')) {
+                            def fileName = "${app_name_release}_v${defaultConfig.versionName}_${currentTime()}_${variant.flavorName}.apk"
+                            outputFileName = fileName
+                        }
+                    }
+                }
+            }
+        }
+        debug {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            resValue("string", "app_name", "${app_name_release}_${dev_suffix}_${currentSecond()}")
         }
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support:design:27.1.1'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "com.android.support:appcompat-v7:$rootProject.ext.supportLibVersion"
+    testImplementation "junit:junit:$rootProject.ext.junitVersion"
+    androidTestImplementation "com.android.support.test:runner:$rootProject.ext.runnerVersion"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:$rootProject.ext.espressoVersion"
+    implementation project(':eternal')
+    if (notepadEnable.toBoolean()) {
+        implementation project(':notepad')
+    }
 }

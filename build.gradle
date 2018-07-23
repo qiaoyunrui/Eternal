@@ -1,4 +1,27 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+ext {
+    // Project
+    mainApplicationId = "me.juhezi.eternal"
+    globalVersionCode = versionCode
+    globalVersionName  = versionName
+
+    // Framework
+    androidCompileSdkVersion = 27
+    androidBuildToolsVersion = '27.0.3'
+    supportLibVersion = '27.1.1'
+    minSdkVersion = 21
+    targetSdkVersion = 27
+    compileSdkVersion = 27
+    // Test
+    junitVersion = '4.12'
+    espressoVersion = '3.0.2'
+    runnerVersion = "1.0.2"
+    // Official
+
+    // Third-party
+
+    // Module
+    notepadEnable = false    // 记事本模块
+}
 
 buildscript {
     ext.kotlin_version = '1.2.51'
@@ -9,9 +32,6 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
     }
 }
 
