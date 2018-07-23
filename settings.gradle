@@ -1,1 +1,3 @@
-include ':main', ':notepad', ':eternal'
+//include ':main'
+include ':notepad'
+include ':eternal'

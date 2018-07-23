@@ -33,7 +33,7 @@ open class BaseActivity : AppCompatActivity() {
     @LayoutRes private var mEmptyViewResId = R.layout.view_empty_default
     @LayoutRes private var mErrorViewResId = R.layout.view_error_default
     @LayoutRes private var mLoadingViewResId = R.layout.view_loading_default
-    @LayoutRes private var mContentViewResId = R.layout.activity_default
+//    @LayoutRes private var mContentViewResId = R.layout.activity_default
     @LayoutRes private var mRootViewResId = R.layout.activity_root
 
 
@@ -121,7 +121,7 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     protected fun show(status: String) {
-        mBaseViewController.show(status, true)
+        mBaseViewController.show(status)
     }
 
 }

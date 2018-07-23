@@ -1,10 +1,6 @@
 package me.juhezi.eternal.base
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.ValueAnimator
 import android.view.View
-import android.view.animation.AccelerateInterpolator
 
 /**
  * 控制基本 View 的显示与消失
@@ -28,13 +24,6 @@ class BaseViewController() {
 
     private var mViewMap = HashMap<String, View>()  //管理所有的 View
 
-    private var showAnim = ValueAnimator.ofFloat(0f, 1f)
-    private var hideAnim = ValueAnimator.ofFloat(1f, 0f)
-
-    init {
-        configAnim()
-    }
-
     fun load(status: String, view: View?): Boolean {
         if (STATUS_NONE == status) return false
         if (mViewMap.containsKey(status)) return false
@@ -52,20 +41,20 @@ class BaseViewController() {
     /**
      * 显示 status 对应的 View
      */
-    fun show(status: String, anim: Boolean) {
+    fun show(status: String) {
         val preStatus = currentStatus
         currentStatus = status
         val preView = mViewMap[preStatus]
         val currentView = mViewMap[status]
-        hideView(preView, anim)
-        showView(currentView, anim)
+        hideView(preView)
+        showView(currentView)
     }
 
     /**
      * 隐藏 status 对应的 View
      */
-    fun hide(status: String, anim: Boolean) {
-        hideView(mViewMap[status], anim)
+    fun hide(status: String) {
+        hideView(mViewMap[status])
     }
 
     fun hideAll() {
@@ -75,64 +64,19 @@ class BaseViewController() {
         currentStatus = STATUS_NONE
     }
 
-    private fun showView(view: View?, anim: Boolean) {
+    private fun showView(view: View?) {
         if (view == null) return
         if (view.visibility == View.VISIBLE) return
-        if (anim) {
-            applyShowAnim(view, showAnim)
-            showAnim.start()
-        } else {
-            view.visibility = View.VISIBLE
-        }
+        view.visibility = View.VISIBLE
     }
 
-    private fun hideView(view: View?, anim: Boolean) {
+    private fun hideView(view: View?) {
         if (view == null) return
         if (view.visibility != View.VISIBLE) return
-        if (anim) {
-            applyHideAnim(view, hideAnim)
-            hideAnim.start()
-        } else {
-            view.visibility = View.GONE
-        }
+        view.visibility = View.GONE
     }
 
     fun size() = mViewMap.size
-
-    private fun configAnim() {
-        //设置动画间隔
-        showAnim.duration = ANIM_DURATION
-        hideAnim.duration = ANIM_DURATION
-        //设置动画差值器
-        showAnim.interpolator = AccelerateInterpolator()
-        hideAnim.interpolator = AccelerateInterpolator()
-    }
-
-    private fun applyShowAnim(view: View, anim: ValueAnimator) {
-        showAnim.removeAllUpdateListeners()
-        showAnim.removeAllListeners()
-        showAnim.addUpdateListener {
-            view.alpha = it.animatedValue as Float
-        }
-        showAnim.addListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationStart(animation: Animator?) {
-                view.visibility = View.VISIBLE
-            }
-        })
-    }
-
-    private fun applyHideAnim(view: View, anim: ValueAnimator) {
-        hideAnim.removeAllUpdateListeners()
-        hideAnim.removeAllListeners()
-        hideAnim.addUpdateListener {
-            view.alpha = it.animatedValue as Float
-        }
-        hideAnim.addListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator?) {
-                view.visibility = View.GONE
-            }
-        })
-    }
 
     fun init() {
         mViewMap.forEach {
