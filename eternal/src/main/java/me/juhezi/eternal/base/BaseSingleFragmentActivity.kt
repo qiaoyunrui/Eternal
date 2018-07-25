@@ -10,7 +10,7 @@ import me.juhezi.eternal.R
  * 此 Activity 可以看作是 Fragment 的 容器
  * Created by Juhezi[juhezix@163.com] on 2018/7/23.
  */
-abstract class SingleFragmentActivity : BaseActivity() {
+abstract class BaseSingleFragmentActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
