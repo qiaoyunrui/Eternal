@@ -5,7 +5,7 @@ ext {
     globalVersionName  = versionName
 
     // Framework
-    androidCompileSdkVersion = 27
+    androidCompileSdkVersion = 28
     androidBuildToolsVersion = '27.0.3'
     supportLibVersion = '27.1.1'
     minSdkVersion = 21
