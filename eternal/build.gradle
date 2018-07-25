@@ -31,6 +31,7 @@ dependencies {
     testImplementation "junit:junit:$rootProject.ext.junitVersion"
     androidTestImplementation "com.android.support.test:runner:$rootProject.ext.runnerVersion"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$rootProject.ext.espressoVersion"
+    api "com.google.code.gson:gson:$rootProject.ext.gsonVersion"
 }
 repositories {
     mavenCentral()
