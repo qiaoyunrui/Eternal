@@ -52,4 +52,5 @@ public class User extends RealmObject {
         this.nickname = nickname;
         return this;
     }
+
 }

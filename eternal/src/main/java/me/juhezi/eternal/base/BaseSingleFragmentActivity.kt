@@ -15,6 +15,7 @@ abstract class BaseSingleFragmentActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(getActivityLayoutRes())
+        toolBarVisibility = false   // 显示 Toolbar
         var fragment = supportFragmentManager.findFragmentById(getFragmentContainerId())
         if (fragment == null)
             fragment = getFragment()

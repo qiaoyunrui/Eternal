@@ -11,7 +11,7 @@ import me.juhezi.eternal.repository.remote.RemoteUserRepo
  * 暂时由本地操作代理
  */
 class UserRepo(var localRepo: IUserRepo = LocalUserRepo(),
-               var remoteRepo: IUserRepo = RemoteUserRepo()) : IUserRepo by localRepo {
+               var remoteRepo: IUserRepo = RemoteUserRepo()) : IUserRepo by remoteRepo {
     override fun add(t: User, success: Success<User>?, fail: Fail?) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
