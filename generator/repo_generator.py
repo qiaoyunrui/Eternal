@@ -3,9 +3,13 @@
 # waiting
 
 from sys import argv
+import os
+import shutil
 
 # print("length is", len(argv))
 # print("list is", str(argv))
+
+output_dir = "build"
 
 if len(argv) <= 1:
     print("Please input the model name!")
@@ -13,6 +17,13 @@ if len(argv) <= 1:
 
 # 模块名字
 model_name = argv[1].strip()
+
+if model_name == "clean":
+    if os.path.exists(output_dir):
+        shutil.rmtree(output_dir)
+    print("Clean the build dir!")
+    exit(0)
+
 if len(model_name) == 0:
     print("The model name can not be empty!")
     exit(2)
@@ -25,6 +36,11 @@ print("The model name is \"", model_name, "\"")
 
 mate = "model_name"
 field = "${" + mate + "}"
+
+sub_dir = output_dir + "/" + model_name
+
+if not os.path.exists(sub_dir):
+    os.makedirs(sub_dir)  # 创建输出文件夹
 
 interface = """
 package me.juhezi.eternal.repository.interfaces
@@ -130,11 +146,25 @@ def replace(content):
     return content.replace(field, model_name)
 
 
+def write(path, content):
+    with open(path, 'w') as f:
+        f.write(content)
+
+
 interface = replace(interface)
+interface_path = sub_dir + "/I" + model_name + "Repo.kt"
+write(interface_path, interface)
+print("Generate", interface_path)
 local = replace(local)
+local_path = sub_dir + "/Local" + model_name + "Repo.kt"
+write(local_path, local)
+print("Generate", local_path)
 remote = replace(remote)
+remote_path = sub_dir + "/Remote" + model_name + "Repo.kt"
+write(remote_path, remote)
+print("Generate", remote_path)
 impl = replace(impl)
-print(interface)
-print(local)
-print(remote)
-print(impl)
+impl_path = sub_dir + "/" + model_name + "Repo.kt"
+write(impl_path, impl)
+print("Generate", impl_path)
+print("Done!")
