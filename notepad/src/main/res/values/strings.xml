@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">日记</string>
+    <string name="input_something">输入些内容吧</string>
 </resources>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <me.juhezi.eternal.widget.EternalToolbar
+        android:id="@+id/tb_add_article"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tool_bar_height"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimary" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/vg_add_article_bottom_bar"
+        android:layout_below="@+id/tb_add_article">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="4dp"
+                    android:textSize="@dimen/text_size_12"
+                    tools:text="7月11日 晚上10:12" />
+
+            </LinearLayout>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:background="@null"
+                android:hint="@string/input_something"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_size_18"
+                tools:text="大家应该用过网易新闻客户端，没有使用的可以下载下来看看客户端的界面，它里面就是通过该方法进行判断的，滑动界面切换Fragment，不可见的Fragment数据不加载，切换到可见的时候，在进行加载数据进行显示。另外值得一提的是，网易新闻客户端使用到了缓存，其实缓存很简单的。" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/vg_add_article_bottom_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/ic_label_gray" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/shape_gray_corner"
+                android:padding="4dp"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_size_16"
+                tools:text="添加标签" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

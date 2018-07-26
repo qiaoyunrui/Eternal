@@ -7,10 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import me.juhezi.eternal.extension.i
-import me.juhezi.eternal.global.logi
 import me.juhezi.notepad.R
+import me.juhezi.notepad.addarticle.AddArticleActivity
 
 class MainFragment : Fragment(), MainContract.View {
+
+    // 应该添加标题的
 
     private var mPresenter: MainContract.Presenter? = null
     private lateinit var rootView: View
@@ -39,6 +41,7 @@ class MainFragment : Fragment(), MainContract.View {
     private fun initEvent() {
         fab.setOnClickListener {
             i()
+            startActivity(AddArticleActivity.newIntent(context!!))
         }
     }
 
