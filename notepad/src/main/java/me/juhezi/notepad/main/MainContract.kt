@@ -7,6 +7,6 @@ interface MainContract {
 
     interface Presenter : BasePresenter
 
-    interface View : BaseView<BasePresenter>
+    interface View : BaseView<Presenter>
 
 }
