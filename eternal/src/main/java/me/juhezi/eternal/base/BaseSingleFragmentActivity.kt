@@ -17,11 +17,12 @@ abstract class BaseSingleFragmentActivity : BaseActivity() {
         setContentView(getActivityLayoutRes())
         toolBarVisibility = false   // 显示 Toolbar
         var fragment = supportFragmentManager.findFragmentById(getFragmentContainerId())
-        if (fragment == null)
+        if (fragment == null) {
             fragment = getFragment()
-        supportFragmentManager.beginTransaction()
-                .add(getFragmentContainerId(), fragment)
-                .commit()
+            supportFragmentManager.beginTransaction()
+                    .add(getFragmentContainerId(), fragment)
+                    .commit()
+        }
     }
 
     abstract fun getFragment(): Fragment

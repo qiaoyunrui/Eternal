@@ -9,3 +9,7 @@ const val USER_STORE_SHARED_PREFERENCES_NAME = "user_store"
 const val USER_STORE_SHARED_PREFERENCES_EDITOR_KEY = "user_editor_key"
 
 //----
+
+
+//---- Other ----
+const val TAG = "me.juhezi.eternal.TAG"
