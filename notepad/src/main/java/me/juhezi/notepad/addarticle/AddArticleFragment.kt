@@ -1,27 +1,33 @@
 package me.juhezi.notepad.addarticle
 
+import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import me.juhezi.eternal.global.logi
+import me.juhezi.eternal.base.BaseFragment
+import me.juhezi.eternal.enum.DialogType
+import me.juhezi.eternal.enum.ToolbarStyle
+import me.juhezi.eternal.global.ADD_ARTICLE_RESULT_CODE
 import me.juhezi.eternal.model.Article
-import me.juhezi.eternal.widget.EternalToolbar
+import me.juhezi.eternal.widget.view.EternalToolbar
 import me.juhezi.notepad.R
 
 /**
  * Created by Juhezi[juhezix@163.com] on 2018/7/26.
  */
-class AddArticleFragment : Fragment(), AddArticleContract.View {
+class AddArticleFragment : BaseFragment(), AddArticleContract.View {
+
+    companion object {
+        val ARTICLE_KEY = "article_key"
+    }
 
     private var mPresenter: AddArticleContract.Presenter? = null
     private lateinit var mRootView: View
     private lateinit var mEtTitle: EditText
     private lateinit var mEtContent: EditText
     private lateinit var mEternalToolbar: EternalToolbar
-
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -35,7 +41,6 @@ class AddArticleFragment : Fragment(), AddArticleContract.View {
 
     override fun setPresenter(t: AddArticleContract.Presenter) {
         mPresenter = t
-        logi("$t")
     }
 
     override fun onStart() {
@@ -47,6 +52,12 @@ class AddArticleFragment : Fragment(), AddArticleContract.View {
         mEtTitle = view.findViewById(R.id.et_add_article_title)
         mEtContent = view.findViewById(R.id.et_add_article_content)
         mEternalToolbar = view.findViewById(R.id.tb_add_article)
+        mEternalToolbar.rightStyle = ToolbarStyle.TEXT
+
+        dialogConfig = {
+            setCanceledOnTouchOutside(false)
+            canBack = false     // 不可返回
+        }
     }
 
     private fun initEvent() {
@@ -56,9 +67,28 @@ class AddArticleFragment : Fragment(), AddArticleContract.View {
     }
 
     override fun generateArticle(): Article {
-        val article = Article.generateArticle()
+        return Article.generateArticle()
                 .setCreateTime(System.currentTimeMillis().toString())
-        return article
+                .setTitle(mEtTitle.text.toString())
+                .setContent(mEtContent.text.toString())
+    }
+
+    override fun showLoading() {
+        showDialog(DialogType.PROGRESS)
+    }
+
+    override fun hideLoading() {
+        hideDialog()
+    }
+
+    /**
+     * 返回到上一页
+     */
+    override fun setResult(article: Article) {
+        val intent = Intent()
+        intent.putExtra(ARTICLE_KEY, article)
+        activity?.setResult(ADD_ARTICLE_RESULT_CODE, intent)
+        activity?.finish()
     }
 
 }

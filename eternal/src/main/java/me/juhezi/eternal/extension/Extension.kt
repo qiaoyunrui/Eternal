@@ -27,6 +27,10 @@ fun Any.v() = Log.v(javaClass.simpleName, this.toString())
 
 fun Any.d() = Log.d(javaClass.simpleName, this.toString())
 
+fun Any.trim(content: String?): String? {
+    return content?.trim()
+}
+
 fun Any.isEmpty(content: String?) = TextUtils.isEmpty(content)
 
 fun Any.println() = println(this)

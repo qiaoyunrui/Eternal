@@ -3,6 +3,7 @@ package me.juhezi.eternal.extension
 import android.content.Context
 import android.graphics.Point
 import android.view.WindowManager
+import android.widget.Toast
 
 fun Context.getScreenWidth(): Int {
     val wm = getSystemService(Context.WINDOW_SERVICE) as WindowManager
@@ -77,5 +78,9 @@ fun Context.getScreenHeightInches(): Double {
     val dm = resources.displayMetrics
     val height = dm.heightPixels
     return height.toDouble() / dm.ydpi.toDouble()
+}
+
+fun Context.showToast(message: String) {
+    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }
 

@@ -15,6 +15,13 @@ interface AddArticleContract {
 
     interface View : BaseView<Presenter> {
         fun generateArticle(): Article
+
+        fun showLoading()
+
+        fun hideLoading()
+
+        fun setResult(article: Article)
+
     }
 
 }

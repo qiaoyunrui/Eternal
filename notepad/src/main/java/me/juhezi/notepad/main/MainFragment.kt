@@ -1,16 +1,19 @@
 package me.juhezi.notepad.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import me.juhezi.eternal.base.BaseFragment
 import me.juhezi.eternal.extension.i
+import me.juhezi.eternal.global.ADD_ARTICLE_REQUEST_CODE
 import me.juhezi.notepad.R
 import me.juhezi.notepad.addarticle.AddArticleActivity
+import me.juhezi.notepad.addarticle.AddArticleFragment
 
-class MainFragment : Fragment(), MainContract.View {
+class MainFragment : BaseFragment(), MainContract.View {
 
     // 应该添加标题的
 
@@ -41,8 +44,15 @@ class MainFragment : Fragment(), MainContract.View {
     private fun initEvent() {
         fab.setOnClickListener {
             i()
-            startActivity(AddArticleActivity.newIntent(context!!))
+            startActivityForResult(AddArticleActivity.newIntent(context!!), ADD_ARTICLE_REQUEST_CODE)
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        val article = data?.getSerializableExtra(AddArticleFragment.ARTICLE_KEY)
+        // todo 把这个 Article 添加到列表里
+        i("$article")
     }
 
 }

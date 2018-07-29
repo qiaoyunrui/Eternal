@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <me.juhezi.eternal.widget.EternalToolbar
+    <me.juhezi.eternal.widget.view.EternalToolbar
         android:id="@+id/tb_add_article"
         android:layout_width="match_parent"
         android:layout_height="@dimen/tool_bar_height"

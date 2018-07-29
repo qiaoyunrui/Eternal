@@ -1,4 +1,4 @@
-package me.juhezi.eternal.widget;
+package me.juhezi.eternal.widget.view;
 
 import android.content.Context;
 import android.graphics.Canvas;

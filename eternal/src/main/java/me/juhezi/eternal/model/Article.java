@@ -1,5 +1,7 @@
 package me.juhezi.eternal.model;
 
+import java.io.Serializable;
+
 import io.realm.RealmObject;
 import me.juhezi.eternal.global.FunctionsKt;
 
@@ -14,7 +16,7 @@ import me.juhezi.eternal.global.FunctionsKt;
  * - labelId: 标签 Id String
  * -
  **/
-public class Article extends RealmObject {
+public class Article extends RealmObject implements Serializable {
 
     private String id;
     private String title;
