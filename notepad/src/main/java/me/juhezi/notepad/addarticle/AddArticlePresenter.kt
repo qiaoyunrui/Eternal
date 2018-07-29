@@ -16,7 +16,7 @@ import me.juhezi.eternal.repository.interfaces.IArticleRepo
 class AddArticlePresenter(private val fragment: AddArticleContract.View,
                           private val context: Context) : AddArticleContract.Presenter {
 
-    lateinit var repo: IArticleRepo
+    var repo: IArticleRepo
 
     init {
         fragment.setPresenter(this)

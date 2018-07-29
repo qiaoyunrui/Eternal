@@ -10,6 +10,7 @@ import android.view.View
 import me.juhezi.eternal.BuildConfig
 import me.juhezi.eternal.base.BaseApplication
 import me.juhezi.eternal.builder.buildUIHandler
+import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -90,3 +91,11 @@ fun createScaleEffect(scale: Float) = { view: View, enable: Boolean ->
 }
 
 fun generateRandomID() = UUID.randomUUID().toString()
+
+/**
+ * 对时间戳进行格式化
+ */
+fun formatTime(time: Long, format: String = "yyyy年 MM月dd日 HH:mm"): String {
+    val dateFormat = SimpleDateFormat(format)
+    return dateFormat.format(time)
+}

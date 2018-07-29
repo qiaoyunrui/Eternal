@@ -1,5 +1,6 @@
 package me.juhezi.eternal.repository.local
 
+import io.realm.Sort
 import me.juhezi.eternal.global.Fail
 import me.juhezi.eternal.global.Success
 import me.juhezi.eternal.global.globalRealm
@@ -33,7 +34,14 @@ class LocalArticleRepo : IArticleRepo {
     }
 
     override fun queryAll(success: Success<List<Article>>?, fail: Fail?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        globalRealm.executeTransactionAsync({
+            val results = it.where(Article::class.java)
+                    .sort("createTime", Sort.DESCENDING)    //根据创建时间进行排名
+                    .findAll()
+            success?.invoke(it.copyFromRealm(results))
+        }, { error ->
+            fail?.invoke("Query error", error)
+        })
     }
 
 }
