@@ -10,6 +10,7 @@ import android.view.View
 import me.juhezi.eternal.BuildConfig
 import me.juhezi.eternal.base.BaseApplication
 import me.juhezi.eternal.builder.buildUIHandler
+import java.util.*
 
 /**
  * Created by Juhezi[juhezix@163.com] on 2018/7/26.
@@ -87,3 +88,5 @@ fun createScaleEffect(scale: Float) = { view: View, enable: Boolean ->
         view.scaleY = 1f
     }
 }
+
+fun generateRandomID() = UUID.randomUUID().toString()

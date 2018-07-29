@@ -21,7 +21,7 @@
                 android:layout_gravity="center_vertical"
                 android:text="@string/app_name"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_18"/>
+                android:textSize="@dimen/text_size_18" />
 
         </FrameLayout>
 
@@ -36,6 +36,20 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true">
+
+            <TextView
+                android:id="@+id/tv_eternal_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/shape_accent_corner"
+                android:paddingBottom="4dp"
+                android:paddingEnd="8dp"
+                android:paddingStart="8dp"
+                android:paddingTop="4dp"
+                android:text="@string/add"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_18" />
 
         </FrameLayout>
 

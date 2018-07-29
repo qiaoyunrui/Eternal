@@ -1,6 +1,7 @@
 package me.juhezi.eternal.model;
 
 import io.realm.RealmObject;
+import me.juhezi.eternal.global.FunctionsKt;
 
 /**
  * 文章实体类
@@ -85,4 +86,22 @@ public class Article extends RealmObject {
         this.labelId = labelId;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "Article{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", author='" + author + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", updateTime='" + updateTime + '\'' +
+                ", labelId='" + labelId + '\'' +
+                '}';
+    }
+
+    public static Article generateArticle() {
+        return new Article().setId(FunctionsKt.generateRandomID());
+    }
+
 }
