@@ -12,6 +12,7 @@ import me.juhezi.eternal.base.BaseFragment
 import me.juhezi.eternal.enum.DialogType
 import me.juhezi.eternal.extension.di
 import me.juhezi.eternal.global.ADD_ARTICLE_REQUEST_CODE
+import me.juhezi.eternal.global.ADD_ARTICLE_RESULT_CODE
 import me.juhezi.eternal.model.Article
 import me.juhezi.notepad.R
 import me.juhezi.notepad.addarticle.AddArticleActivity
@@ -66,10 +67,17 @@ class MainFragment : BaseFragment(), MainContract.View {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        val article = data?.getSerializableExtra(AddArticleFragment.ARTICLE_KEY) as Article
-        di("$article")
-        addArticle(article, 0)
-        mRecyclerView.scrollToPosition(0)
+        if (requestCode == ADD_ARTICLE_REQUEST_CODE) {
+            if (resultCode == ADD_ARTICLE_RESULT_CODE) {
+                val article = data?.getSerializableExtra(AddArticleFragment.ARTICLE_KEY) as Article?
+                if (article != null) {
+                    di("$article")
+                    addArticle(article, 0)
+                    mRecyclerView.scrollToPosition(0)
+                }
+            }
+        }
+
     }
 
     override fun showLoading() {
