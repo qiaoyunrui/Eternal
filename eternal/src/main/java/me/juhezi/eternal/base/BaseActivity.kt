@@ -3,12 +3,12 @@ package me.juhezi.eternal.base
 import android.os.Bundle
 import android.support.annotation.LayoutRes
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import me.juhezi.eternal.R
+import me.juhezi.eternal.widget.view.EternalToolbar
 
 /**
  * 基础 Activity
@@ -30,16 +30,20 @@ open class BaseActivity : AppCompatActivity() {
     protected val mLayoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT)
 
-    @LayoutRes private var mEmptyViewResId = R.layout.view_empty_default
-    @LayoutRes private var mErrorViewResId = R.layout.view_error_default
-    @LayoutRes private var mLoadingViewResId = R.layout.view_loading_default
-//    @LayoutRes private var mContentViewResId = R.layout.activity_default
-    @LayoutRes private var mRootViewResId = R.layout.activity_root
+    @LayoutRes
+    private var mEmptyViewResId = R.layout.view_empty_default
+    @LayoutRes
+    private var mErrorViewResId = R.layout.view_error_default
+    @LayoutRes
+    private var mLoadingViewResId = R.layout.view_loading_default
+    //    @LayoutRes private var mContentViewResId = R.layout.activity_default
+    @LayoutRes
+    private var mRootViewResId = R.layout.activity_root
 
 
     private var mRootView: View? = null
     protected var mContainer: FrameLayout? = null
-    protected var mToolbar: Toolbar? = null
+    protected var mToolbar: EternalToolbar? = null
     protected var mInflater: LayoutInflater? = null
 
     protected val mBaseViewController: BaseViewController = BaseViewController()
@@ -64,9 +68,6 @@ open class BaseActivity : AppCompatActivity() {
         mToolbar = findViewById(R.id.tb_base_activity)
         mToolbar?.visibility = if (toolBarVisibility) View.VISIBLE else View.GONE
         //这里应该将基础 View 中添加到界面中
-        if (supportActionBar == null) {
-            setSupportActionBar(mToolbar)
-        }
     }
 
     override fun onStart() {

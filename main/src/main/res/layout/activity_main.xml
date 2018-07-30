@@ -5,10 +5,18 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <RelativeLayout
+        android:layout_width="192dp"
+        android:layout_height="192dp"
         android:layout_centerInParent="true"
-        android:text="Hello World!" />
+        android:background="@drawable/shape_gray_corner">
+
+        <me.juhezi.eternal.widget.view.MarqueeTextView
+            android:id="@+id/tv_marquee"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true" />
+
+    </RelativeLayout>
 
 </RelativeLayout>

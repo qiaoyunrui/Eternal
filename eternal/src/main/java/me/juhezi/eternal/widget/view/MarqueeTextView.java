@@ -23,15 +23,18 @@ public class MarqueeTextView extends View {
     private String mMarginString = "     ";
     private int mTextSize;
     private int mTextColor;
-    private int mSpeed = 1;     //滚动速度
     private TextPaint mTextPaint;
     private String mText;
     private String mShowText;   //最终显示的字符串
     private int mTextWidth = 0, mTextHeight = 0;
     private int mCurrentX = 0;  //当前位置
 
-    private int mTextHeigh;
-    private int mBottomFont;
+    private float mBottomFont;
+
+    private int mWidgetWidth;   // 控件宽度
+
+    private int mDistance = 0;    //左位移
+    private int mDx = 5;    // 每次向左位移的距离
 
     private boolean isScrolling = true;
 
@@ -66,6 +69,14 @@ public class MarqueeTextView extends View {
     }
 
     @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        mWidgetWidth = MeasureSpec.getSize(widthMeasureSpec);
+        expandText();   // 对默认文字进行扩展
+        measureText();
+    }
+
+    @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         int paddingLeft = getPaddingLeft();
@@ -80,28 +91,41 @@ public class MarqueeTextView extends View {
         if (TextUtils.isEmpty(mText)) { // 字符串为空，不进行控制
             return;
         }
+
+        mDistance -= mDx;
+
+        // TODO: 2018/7/30 未完成，需要重新规划，以及滚动的时候会有卡顿，原因是什么？
+
+        // 这里需要计算左移的距离
+        canvas.drawText(mShowText, paddingLeft + mDistance, contentHeight - mBottomFont, mTextPaint);
+        if (isScrolling) {
+            postInvalidateDelayed(16);   // 根据速度调整刷新的间隔时间
+        }
     }
 
     // 测量当前 Text
     private void measureText() {
-
+        Paint.FontMetrics fontMetrics = mTextPaint.getFontMetrics();
+        mBottomFont = fontMetrics.bottom;
     }
 
     // 根据文本的宽度和控件的宽度扩展文本
     private void expandText() {
-        int widgetWidth = getWidth();   // 控件的宽度
-        int textWidth = (int) mTextPaint.measureText(mText);  // 文本的宽度
-        String tempString = "";
-        while (textWidth <= widgetWidth) {  // 如果文本宽度小于控件宽度，那么就进行扩展
-            tempString = tempString + (mText + mMarginString + mText);     // 将两个文本拼接成一个新的字符串
-            textWidth = (int) mTextPaint.measureText(tempString); // 对拼接后的字符串进行测量宽度
+        String tempString = mText;
+        mTextWidth = (int) mTextPaint.measureText(tempString);  // 文本的宽度
+        while (mTextWidth <= mWidgetWidth) {  // 如果文本宽度小于控件宽度，那么就进行扩展
+            tempString = tempString + (mMarginString + mText);     // 将两个文本拼接成一个新的字符串
+            mTextWidth = (int) mTextPaint.measureText(tempString); // 对拼接后的字符串进行测量宽度
         }
-        mShowText = tempString;
+        mShowText = tempString;     // 要显示的字符串
     }
 
     public void setText(String text) {
         this.mText = text;
         // 要进行重新绘制
+        expandText();   // 对文字重新进行扩展
+        measureText();
+        invalidate();
     }
 
     public void setTextSize(int textSize) {
@@ -118,10 +142,10 @@ public class MarqueeTextView extends View {
     }
 
     public void startScroll() {
-
+        isScrolling = true;
     }
 
     public void endScroll() {
-
+        isScrolling = false;
     }
 }
