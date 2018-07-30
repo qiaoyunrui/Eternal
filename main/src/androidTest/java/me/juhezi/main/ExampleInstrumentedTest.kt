@@ -1,4 +1,4 @@
-package me.juhezi.eternal
+package me.juhezi.main
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getTargetContext()
-        assertEquals("me.juhezi.eternal", appContext.packageName)
+        assertEquals("me.juhezi.main", appContext.packageName)
     }
 }

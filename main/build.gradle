@@ -1,9 +1,66 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
+
+def dev_suffix = "dev"
+def app_name_release = "eternal"
+
+static def currentSecond() {
+    return new Date().format("ss", TimeZone.getTimeZone("GMT+8"))
+}
+
+static def currentTime() {
+    return new Date().format("yyyy_MM_dd", TimeZone.getTimeZone("GMT+8"))
+}
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    defaultConfig {
+        applicationId rootProject.ext.mainApplicationId
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.globalVersionCode as int
+        versionName rootProject.ext.globalVersionName
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            resValue("string","app_name",app_name_release)
+            applicationVariants.all { variant ->
+                if (variant.buildType.name == 'release') {
+                    variant.outputs.all {
+                        if (outputFileName != null && outputFileName.endsWith('.apk')) {
+                            def fileName = "${app_name_release}_v${defaultConfig.versionName}_${currentTime()}_${variant.flavorName}.apk"
+                            outputFileName = fileName
+                        }
+                    }
+                }
+            }
+        }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            resValue("string", "app_name", "${app_name_release}_${dev_suffix}_${currentSecond()}")
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "com.android.support:appcompat-v7:$rootProject.ext.supportLibVersion"
+    testImplementation "junit:junit:$rootProject.ext.junitVersion"
+    androidTestImplementation "com.android.support.test:runner:$rootProject.ext.runnerVersion"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:$rootProject.ext.espressoVersion"
+    implementation project(':eternal')
+}
 
 
+/*
 def dev_suffix = "dev"
 def app_name_release = "eternal"
 
@@ -61,4 +118,4 @@ dependencies {
     if (notepadEnable.toBoolean()) {
         implementation project(':notepad')
     }
-}
+}*/

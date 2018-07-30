@@ -2,7 +2,7 @@ ext {
     // Project
     mainApplicationId = "me.juhezi.eternal"
     globalVersionCode = versionCode
-    globalVersionName  = versionName
+    globalVersionName = versionName
 
     // Framework
     androidCompileSdkVersion = 28

@@ -1,4 +1,4 @@
-package me.juhezi.eternal
+package me.juhezi.main
 
 import org.junit.Test
 
