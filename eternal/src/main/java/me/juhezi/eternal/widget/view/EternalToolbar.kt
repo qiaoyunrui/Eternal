@@ -5,6 +5,7 @@ import android.support.annotation.LayoutRes
 import android.util.ArrayMap
 import android.util.AttributeSet
 import android.view.View
+import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import me.juhezi.eternal.R
@@ -46,18 +47,40 @@ class EternalToolbar @JvmOverloads constructor(context: Context,
     @LayoutRes
     private var layoutRes = R.layout.view_eternal_toolbar
 
+    //----Right
     private var mRightTextView: TextView?
+    private var mRightImageView: ImageView?
+
+    //----Center
+
+
+    //----Left
+    private var mLeftTextView: TextView?
 
     var onRightTextClickListener: (() -> Unit)? = null
+    var onRightIconClickListener: (() -> Unit)? = null
+    //--
+
+    //--
+    var onLeftTextClickListener: (() -> Unit)? = null
 
     init {
         //--- init
         View.inflate(context, layoutRes, this)
         mRightTextView = findViewById(R.id.tv_eternal_right)
+        mRightImageView = findViewById(R.id.iv_eternal_right)
+        //--
 
+        //--
+        mLeftTextView = findViewById(R.id.tv_eternal_left)
         //--- init View Map
 
         mRightViewMap[ToolbarStyle.TEXT.key] = mRightTextView
+        mRightViewMap[ToolbarStyle.ICON.key] = mRightImageView
+        //--
+
+        //--
+        mLeftViewMap[ToolbarStyle.TEXT.key] = mLeftTextView
 
         //--- init Style Show
 
@@ -69,6 +92,15 @@ class EternalToolbar @JvmOverloads constructor(context: Context,
 
         mRightTextView?.setOnClickListener {
             onRightTextClickListener?.invoke()
+        }
+        mRightImageView?.setOnClickListener {
+            onRightIconClickListener?.invoke()
+        }
+        //--
+
+        //--
+        mLeftTextView?.setOnClickListener {
+            onLeftTextClickListener?.invoke()
         }
     }
 
@@ -84,22 +116,17 @@ class EternalToolbar @JvmOverloads constructor(context: Context,
         updateView(rightStyle, mRightViewMap)
     }
 
-    private fun updateView(style: ToolbarStyle, viewMap: Map<Int, View?>) {
+    private fun updateView(style: ToolbarStyle, viewMap: Map<Int, View?>) = hideViewExcept(style, viewMap)
 
-        when (style) {
-            ToolbarStyle.TEXT -> {
-                viewMap[ToolbarStyle.TEXT.key]?.visibility = View.VISIBLE
-                viewMap[ToolbarStyle.ICON.key]?.visibility = View.GONE
-                viewMap[ToolbarStyle.ICON_AND_TEXT.key]?.visibility = View.GONE
-            }
-            ToolbarStyle.NONE -> {
-                viewMap[ToolbarStyle.TEXT.key]?.visibility = View.GONE
-                viewMap[ToolbarStyle.ICON.key]?.visibility = View.GONE
-                viewMap[ToolbarStyle.ICON_AND_TEXT.key]?.visibility = View.GONE
+
+    private fun hideViewExcept(style: ToolbarStyle, viewMap: Map<Int, View?>) {
+        viewMap.entries.forEach {
+            it.value?.visibility = if (it.key == style.key) {
+                View.VISIBLE
+            } else {
+                View.GONE
             }
         }
-
     }
-
 
 }
