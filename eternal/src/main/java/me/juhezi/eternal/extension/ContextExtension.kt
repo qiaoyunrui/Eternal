@@ -2,8 +2,10 @@ package me.juhezi.eternal.extension
 
 import android.content.Context
 import android.graphics.Point
+import android.net.Uri
 import android.view.WindowManager
 import android.widget.Toast
+import me.juhezi.eternal.util.UriUtils
 
 fun Context.getScreenWidth(): Int {
     val wm = getSystemService(Context.WINDOW_SERVICE) as WindowManager
@@ -84,3 +86,7 @@ fun Context.showToast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }
 
+/**
+ * 获取 URI 对应的真实路径
+ */
+fun Context.getRealPathFromUri(uri: Uri): String = UriUtils.getPathFromUri(this, uri)
