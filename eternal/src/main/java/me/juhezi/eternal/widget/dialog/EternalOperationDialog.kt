@@ -15,8 +15,8 @@ import me.juhezi.eternal.R
 import me.juhezi.eternal.base.BaseDialog
 import me.juhezi.eternal.extension.dip2px
 
-class EternalOperationDialog(context: Context?) :
-        BaseDialog(context, R.style.full_screen_dialog) {
+class EternalOperationDialog(context: Context?, theme: Int = R.style.full_screen_dialog) :
+        BaseDialog(context, theme) {
 
     companion object {
         @JvmStatic
@@ -41,7 +41,7 @@ class EternalOperationDialog(context: Context?) :
     var onClickListener: ((String, Int) -> Unit)? = null
 
     init {
-        setContentView(R.layout.dialog_operation)
+        setContentView(mLayoutRes)
         mContainer = findViewById(R.id.vg_operation_dialog_container)
     }
 
@@ -56,7 +56,29 @@ class EternalOperationDialog(context: Context?) :
         }
     }
 
+    override fun show() {
+        show(0, 0)
+    }
+
+    fun show(x: Int, y: Int) {
+        windowDeploy(x, y)
+        super.show()
+    }
+
     fun clear() = mContainer.removeAllViews()
+
+    private fun windowDeploy(x: Int, y: Int) {
+        window.setWindowAnimations(R.style.OperationDialogAnim) // 设置窗口弹出动画
+        window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT)
+        val layoutParams = window.attributes
+        // 根据 x，y坐标设置窗口需要显示的位置
+        layoutParams.x = x
+        layoutParams.y = y
+        layoutParams.gravity = Gravity.BOTTOM   //位于底部
+        // update window layout
+        onWindowAttributesChanged(layoutParams)
+    }
 
     /**
      * 根据对应的 type 生成固定的 View
