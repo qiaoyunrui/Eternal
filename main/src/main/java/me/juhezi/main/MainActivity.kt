@@ -20,14 +20,10 @@ class MainActivity : BaseActivity() {
             config {
                 setCanceledOnTouchOutside(true)
             }
-            logi("${addTextOperation("text#1")}")
-            addTextOperation("text#2")
-            addGeneralOperation("general#1", textClosure = {
-                text = "Hello World"
-            })
-            addGeneralOperation("general#2", textClosure = {
-                text = "Nice World"
-            })
+            logi("${addTextOperation("text#1", content = "删除")}")
+            addTextOperation("text#2", content = "编辑")
+            addGeneralOperation("general#1", content = "Hello World", drawableRes = R.mipmap.ic_launcher)
+            addGeneralOperation("general#2", content = "Nice to meet you")
             addCancelOperation()
             apply()
         }

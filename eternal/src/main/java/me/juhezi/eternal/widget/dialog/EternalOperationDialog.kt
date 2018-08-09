@@ -2,6 +2,8 @@ package me.juhezi.eternal.widget.dialog
 
 import android.content.Context
 import android.graphics.Color
+import android.support.annotation.ColorInt
+import android.support.annotation.DrawableRes
 import android.support.annotation.LayoutRes
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -22,7 +24,6 @@ class EternalOperationDialog(context: Context?, theme: Int = R.style.full_screen
         @JvmStatic
         val CANCEL_ID = "cancel"    // cancel 按钮的固定 id
 
-
         @JvmStatic
         val SINGLE_TEXT_TYPE = 0x001
         @JvmStatic
@@ -30,6 +31,13 @@ class EternalOperationDialog(context: Context?, theme: Int = R.style.full_screen
 
         @JvmStatic
         val ICON_AND_TEXT_LAYOUT_RES = R.layout.item_icon_and_text_operation    // icon + text 布局文件
+
+        @JvmStatic
+        val DEFAULT_TEXT_SIZE = 20f     // 字体大小默认为 20sp
+
+        @ColorInt
+        @JvmStatic
+        val DEFAULT_TEXT_COLOR = Color.parseColor("#FF272727") // 默认字体颜色
     }
 
 
@@ -47,12 +55,18 @@ class EternalOperationDialog(context: Context?, theme: Int = R.style.full_screen
 
     fun apply() {
         mContainer.removeAllViews()
+        val size = mOperationMap.size
+        var index = 0
         mOperationMap.forEach { _, operation ->
             val view = createView(operation)
             view.setOnClickListener {
                 onClickListener?.invoke(operation.id, operation.type)   // 点击事件
             }
             mContainer.addView(view)
+            if (index != size - 1) {    // 添加分割线
+                mContainer.addView(createDividerView())
+            }
+            index++
         }
     }
 
@@ -78,6 +92,17 @@ class EternalOperationDialog(context: Context?, theme: Int = R.style.full_screen
         layoutParams.gravity = Gravity.BOTTOM   //位于底部
         // update window layout
         onWindowAttributesChanged(layoutParams)
+    }
+
+    /**
+     * 生成分割线 View
+     */
+    private fun createDividerView(): View {
+        val view = View(context)
+        val layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, context.dip2px(0.5f))
+        view.layoutParams = layoutParams
+        view.setBackgroundColor(context.resources.getColor(R.color.black_alpha20))
+        return view
     }
 
     /**
@@ -138,26 +163,38 @@ class EternalOperationDialog(context: Context?, theme: Int = R.style.full_screen
 
     fun hasOperation(id: String) = mOperationMap.containsKey(id)
 
-    fun addTextOperation(id: String, closure: (TextView.() -> Unit)? = {
-        textSize = context.dip2px(20f).toFloat()
-        setTextColor(Color.BLACK)
-    }) = addOperation(TextOperation(id, closure))
+    fun addTextOperation(id: String, content: String = "", closure: (TextView.() -> Unit)? = {
+        textSize = DEFAULT_TEXT_SIZE
+        setTextColor(DEFAULT_TEXT_COLOR)
+    }) = addOperation(TextOperation(id) {
+        text = content
+        closure?.invoke(this)
+    })
 
+    fun addGeneralOperation(id: String,
+                            @DrawableRes drawableRes: Int = R.drawable.ic_error_outline_black,
+                            content: String = "",
+                            iconClosure: (ImageView.() -> Unit)? = null,
+                            textClosure: (TextView.() -> Unit)? = {
+                                textSize = DEFAULT_TEXT_SIZE
+                                setTextColor(DEFAULT_TEXT_COLOR)
+                            }) = addOperation(
+            GeneralOperation(id, {
+                setImageDrawable(context.getDrawable(drawableRes))
+                iconClosure?.invoke(this)
+            }, {
+                text = content
+                textClosure?.invoke(this)
+            }))
 
-    fun addGeneralOperation(id: String, iconClosure: (ImageView.() -> Unit)? = {
-        setImageDrawable(context.getDrawable(R.drawable.ic_error_outline_black))
-    }, textClosure: (TextView.() -> Unit)? = {
-        textSize = context.dip2px(20f).toFloat()
-        setTextColor(Color.BLACK)
-    }) = addOperation(GeneralOperation(id, iconClosure, textClosure))
 
     /**
      * 添加取消按钮
      */
     fun addCancelOperation(closure: (TextView.() -> Unit)? = {
         text = context.getText(R.string.cancel)     // 文本为取消
-        textSize = context.dip2px(20f).toFloat()
-        setTextColor(Color.BLACK)
+        textSize = DEFAULT_TEXT_SIZE
+        setTextColor(DEFAULT_TEXT_COLOR)
     }): Boolean {
         if (hasOperation(CANCEL_ID)) return false
         val cancelOperation = TextOperation(CANCEL_ID, closure)
