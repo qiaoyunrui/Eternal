@@ -20,6 +20,8 @@
             android:name=".addarticle.AddArticleActivity"
             android:exported="true" />
 
+        <activity android:name=".viewarticle.ViewArticleActivity" />
+
     </application>
 
 

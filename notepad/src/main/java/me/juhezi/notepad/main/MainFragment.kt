@@ -17,7 +17,7 @@ import me.juhezi.eternal.model.Article
 import me.juhezi.notepad.R
 import me.juhezi.notepad.addarticle.AddArticleActivity
 import me.juhezi.notepad.addarticle.AddArticleFragment
-import me.juhezi.notepad.addarticle.ArticleAdapter
+import me.juhezi.notepad.viewarticle.ViewArticleActivity
 
 class MainFragment : BaseFragment(), MainContract.View {
 
@@ -56,6 +56,9 @@ class MainFragment : BaseFragment(), MainContract.View {
         dialogConfig = {
             setCanceledOnTouchOutside(false)
             canBack = false     // 不可返回
+        }
+        mAdapter?.onClickItemClickListener = { article, i ->
+            startActivity(ViewArticleActivity.newIntent(context!!))
         }
     }
 
