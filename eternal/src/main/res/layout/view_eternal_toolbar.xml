@@ -21,10 +21,54 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
                 android:text="@string/app_name"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_18"
                 android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/iv_eternal_left"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_arrow_back_write"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/vg_eternal_left_group"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/iv_eternal_group_left"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_arrow_back_write"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/tv_eternal_group_left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    tools:text="@string/app_name"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_18"
+                    android:visibility="visible" />
+
+            </LinearLayout>
 
         </FrameLayout>
 

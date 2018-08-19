@@ -58,7 +58,7 @@ class MainFragment : BaseFragment(), MainContract.View {
             canBack = false     // 不可返回
         }
         mAdapter?.onClickItemClickListener = { article, i ->
-            startActivity(ViewArticleActivity.newIntent(context!!))
+            startActivity(ViewArticleActivity.newIntent(context!!, article))
         }
     }
 

@@ -1,10 +1,12 @@
 package me.juhezi.eternal.widget.view
 
 import android.content.Context
+import android.support.annotation.DrawableRes
 import android.support.annotation.LayoutRes
 import android.util.ArrayMap
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -56,6 +58,10 @@ class EternalToolbar @JvmOverloads constructor(context: Context,
 
     //----Left
     private var mLeftTextView: TextView?
+    private var mLeftImageView: ImageView?
+    private var mLeftGroup: ViewGroup?
+    private var mLeftGroupTextView: TextView?
+    private var mLeftGroupImageView: ImageView?
 
     var onRightTextClickListener: (() -> Unit)? = null
     var onRightIconClickListener: (() -> Unit)? = null
@@ -63,6 +69,9 @@ class EternalToolbar @JvmOverloads constructor(context: Context,
 
     //--
     var onLeftTextClickListener: (() -> Unit)? = null
+    var onLeftIconClickListener: (() -> Unit)? = null
+    var onLeftGroupTextClickListener: (() -> Unit)? = null
+    var onLeftGroupIconClickListener: (() -> Unit)? = null
 
     init {
         //--- init
@@ -73,6 +82,10 @@ class EternalToolbar @JvmOverloads constructor(context: Context,
 
         //--
         mLeftTextView = findViewById(R.id.tv_eternal_left)
+        mLeftImageView = findViewById(R.id.iv_eternal_left)
+        mLeftGroup = findViewById(R.id.vg_eternal_left_group)
+        mLeftGroupTextView = findViewById(R.id.tv_eternal_group_left)
+        mLeftGroupImageView = findViewById(R.id.iv_eternal_group_left)
         //--- init View Map
 
         mRightViewMap[ToolbarStyle.TEXT.key] = mRightTextView
@@ -81,7 +94,8 @@ class EternalToolbar @JvmOverloads constructor(context: Context,
 
         //--
         mLeftViewMap[ToolbarStyle.TEXT.key] = mLeftTextView
-
+        mLeftViewMap[ToolbarStyle.ICON.key] = mLeftImageView
+        mLeftViewMap[ToolbarStyle.ICON_AND_TEXT.key] = mLeftGroup
         //--- init Style Show
 
         updateLeftView()
@@ -89,7 +103,6 @@ class EternalToolbar @JvmOverloads constructor(context: Context,
         updateRightView()
 
         //--- event
-
         mRightTextView?.setOnClickListener {
             onRightTextClickListener?.invoke()
         }
@@ -101,6 +114,15 @@ class EternalToolbar @JvmOverloads constructor(context: Context,
         //--
         mLeftTextView?.setOnClickListener {
             onLeftTextClickListener?.invoke()
+        }
+        mLeftImageView?.setOnClickListener {
+            onLeftIconClickListener?.invoke()
+        }
+        mLeftGroupTextView?.setOnClickListener {
+            onLeftGroupTextClickListener?.invoke()
+        }
+        mLeftGroupImageView?.setOnClickListener {
+            onLeftGroupIconClickListener?.invoke()
         }
     }
 
@@ -127,6 +149,12 @@ class EternalToolbar @JvmOverloads constructor(context: Context,
                 View.GONE
             }
         }
+    }
+
+    fun configLeftGroup(text: String = context.getString(R.string.app_name),
+                        @DrawableRes iconRes: Int = R.drawable.ic_arrow_back_write) {
+        mLeftGroupTextView?.text = text
+        mLeftGroupImageView?.setImageDrawable(context.getDrawable(iconRes))
     }
 
 }

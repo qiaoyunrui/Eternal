@@ -1,6 +1,3 @@
 <resources>
     <string name="app_name">日记</string>
-    <string name="input_something">输入些内容吧</string>
-    <string name="title">标题</string>
-    <string name="select_tag">选择标签</string>
 </resources>

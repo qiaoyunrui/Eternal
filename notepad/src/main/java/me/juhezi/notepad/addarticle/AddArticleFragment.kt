@@ -52,8 +52,14 @@ class AddArticleFragment : BaseFragment(), AddArticleContract.View {
         mEtTitle = view.findViewById(R.id.et_add_article_title)
         mEtContent = view.findViewById(R.id.et_add_article_content)
         mEternalToolbar = view.findViewById(R.id.tb_add_article)
-        mEternalToolbar.rightStyle = ToolbarStyle.TEXT
-
+        with(mEternalToolbar) {
+            leftStyle = ToolbarStyle.ICON_AND_TEXT
+            configLeftGroup(getString(R.string.add_article))
+            rightStyle = ToolbarStyle.TEXT
+            onLeftGroupIconClickListener = {
+                activity?.onBackPressed()
+            }
+        }
         dialogConfig = {
             setCanceledOnTouchOutside(false)
             canBack = false     // 不可返回
