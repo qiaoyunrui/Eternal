@@ -13,6 +13,11 @@ Updating
 
 ### 0.0.2
 
+- [x] View Article
+
+### 0.0.3
+
+- [ ] Crash Record
 - [ ] Edit Article
 - [ ] Remove Article
 - [ ] Draft Box
