@@ -2,6 +2,7 @@ package me.juhezi.eternal.base
 
 import android.app.Application
 import io.realm.Realm
+import me.juhezi.eternal.other.CrashHandler
 
 /**
  * Created by Juhezi[juhezix@163.com] on 2018/7/24.
@@ -12,11 +13,12 @@ class BaseApplication : Application() {
         @JvmStatic
         private lateinit var sContext: BaseApplication
 
-        public fun getApplicationContext() = sContext
+        fun getApplicationContext() = sContext
     }
 
     override fun onCreate() {
         super.onCreate()
+        CrashHandler(this)
         Realm.init(this)
         sContext = this
     }
