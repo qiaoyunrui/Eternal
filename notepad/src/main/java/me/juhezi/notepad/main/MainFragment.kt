@@ -13,6 +13,8 @@ import me.juhezi.eternal.enum.DialogType
 import me.juhezi.eternal.extension.di
 import me.juhezi.eternal.global.ADD_ARTICLE_REQUEST_CODE
 import me.juhezi.eternal.global.ADD_ARTICLE_RESULT_CODE
+import me.juhezi.eternal.global.DELETE_ARTICLE_RESULT_CODE
+import me.juhezi.eternal.global.VIEW_ARTICLE_REQUEST_CODE
 import me.juhezi.eternal.model.Article
 import me.juhezi.notepad.R
 import me.juhezi.notepad.addarticle.AddArticleActivity
@@ -60,8 +62,8 @@ class MainFragment : BaseFragment(), MainContract.View {
             setCanceledOnTouchOutside(false)
             canBack = false     // 不可返回
         }
-        mAdapter?.onClickItemClickListener = { article, i ->
-            startActivity(ViewArticleActivity.newIntent(context!!, article))
+        mAdapter?.onClickItemClickListener = { article, _ ->
+            startActivityForResult(ViewArticleActivity.newIntent(context!!, article), VIEW_ARTICLE_REQUEST_CODE)
         }
     }
 
@@ -81,6 +83,11 @@ class MainFragment : BaseFragment(), MainContract.View {
                     addArticle(article, 0)
                     mRecyclerView.scrollToPosition(0)
                 }
+            }
+        } else if (requestCode == VIEW_ARTICLE_REQUEST_CODE) {
+            if (resultCode == DELETE_ARTICLE_RESULT_CODE) {
+                // 后续进行改进
+                mPresenter?.requestData()   // 重新加载数据
             }
         }
 

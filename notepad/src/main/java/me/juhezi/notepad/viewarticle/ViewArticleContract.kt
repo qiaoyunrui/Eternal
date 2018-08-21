@@ -6,11 +6,21 @@ import me.juhezi.eternal.model.Article
 
 interface ViewArticleContract {
 
-    interface Presenter : BasePresenter
+    interface Presenter : BasePresenter {
+
+        fun remove(id: String)
+
+    }
 
     interface View : BaseView<Presenter> {
         // 显示文章
         fun showArticle(article: Article)
+
+        fun showLoading()
+
+        fun hideLoading()
+
+        fun setResult()
     }
 
 }

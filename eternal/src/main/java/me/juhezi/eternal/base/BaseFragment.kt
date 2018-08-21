@@ -29,10 +29,16 @@ open class BaseFragment : Fragment() {
         return dialog
     }
 
+    protected fun hideDialog(dialogType: DialogType) {
+        val dialog = getDialog(dialogType)
+        dialog.dismiss()
+    }
+
     // 非主线程也可以调用
     protected fun hideDialog() {
         mCurrentDialog?.dismiss()
     }
+
 
     private fun createDialog(dialogType: DialogType) = when (dialogType) {
         DialogType.PROGRESS ->

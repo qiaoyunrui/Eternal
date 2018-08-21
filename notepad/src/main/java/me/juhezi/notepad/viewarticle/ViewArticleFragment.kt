@@ -11,6 +11,7 @@ import me.juhezi.eternal.base.BaseDialog
 import me.juhezi.eternal.base.BaseFragment
 import me.juhezi.eternal.enum.DialogType
 import me.juhezi.eternal.enum.ToolbarStyle
+import me.juhezi.eternal.global.DELETE_ARTICLE_RESULT_CODE
 import me.juhezi.eternal.global.formatTime
 import me.juhezi.eternal.model.Article
 import me.juhezi.eternal.widget.dialog.EternalOperationDialog
@@ -24,6 +25,7 @@ class ViewArticleFragment : BaseFragment(), ViewArticleContract.View {
     private lateinit var mToolbar: EternalToolbar
     private lateinit var mTvTitle: TextView
     private lateinit var mTvContent: TextView
+    private var article: Article? = null
 
     companion object {
         private const val DELETE = "delete"
@@ -75,15 +77,23 @@ class ViewArticleFragment : BaseFragment(), ViewArticleContract.View {
             apply()
             onClickListener = { id, _ ->
                 when (id) {
-                    EternalOperationDialog.CANCEL_ID -> onBackPressed()
-                    else ->
+                    EternalOperationDialog.CANCEL_ID -> hideDialog(DialogType.OPERATION)
+                    DELETE -> {
+                        hideDialog(DialogType.OPERATION)
+                        showDialog(DialogType.PROGRESS)
+                        mPresenter?.remove(article?.id ?: "")
+                    }
+                    else -> {
+                        hideDialog(DialogType.OPERATION)
                         Toast.makeText(context, "开发者正在努力开发中", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
     }
 
     override fun showArticle(article: Article) {
+        this.article = article
         if (TextUtils.isEmpty(article.title)) {
             mTvTitle.visibility = View.GONE
         } else {
@@ -107,4 +117,19 @@ class ViewArticleFragment : BaseFragment(), ViewArticleContract.View {
                 ?: return
         showArticle(article!!)
     }
+
+    override fun showLoading() {
+        showDialog(DialogType.PROGRESS)
+    }
+
+    override fun hideLoading() {
+        hideDialog(DialogType.PROGRESS)
+    }
+
+    override fun setResult() {
+        //todo 之后这里可以回传一个 Article， 然后主页面只需要删除一个 Item 即可，不需要全局刷新
+        activity?.setResult(DELETE_ARTICLE_RESULT_CODE)
+        activity?.finish()
+    }
+
 }

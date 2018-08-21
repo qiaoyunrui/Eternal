@@ -26,7 +26,20 @@ class LocalArticleRepo : IArticleRepo {
     }
 
     override fun remove(id: String, success: Success<Article>?, fail: Fail?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        globalRealm.executeTransactionAsync({
+            val temp = it.where(Article::class.java)
+                    .equalTo("id", id)
+                    .findFirst()
+            if (temp == null) {
+                fail?.invoke("Remove Error", Throwable("Can find artcle by id"))
+            } else {
+                val article = it.copyFromRealm(temp)
+                temp.deleteFromRealm()
+                success?.invoke(article)
+            }
+        }, { error ->
+            fail?.invoke("Remove Error", error)
+        })
     }
 
     override fun query(id: String, success: Success<Article>?, fail: Fail?) {
