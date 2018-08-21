@@ -34,7 +34,7 @@ class ViewArticleFragment : BaseFragment(), ViewArticleContract.View {
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        mRootView = inflater.inflate(R.layout.fragment_view_article,
+        mRootView = inflater.inflate(R.layout.notepad_fragment_view_article,
                 container, false)
         mToolbar = mRootView.findViewById(R.id.tb_view_article)
         mTvContent = mRootView.findViewById(R.id.tv_view_article_content)

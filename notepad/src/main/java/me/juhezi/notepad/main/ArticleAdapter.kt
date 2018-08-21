@@ -16,6 +16,8 @@ class ArticleAdapter(list: List<Article>? = null) : RecyclerView.Adapter<Article
 
     var onClickItemClickListener: ((Article, Int) -> Unit)? = null
 
+    var emptyView: View? = null
+
     init {
         if (list != null) {
             mList.clear()
@@ -36,11 +38,19 @@ class ArticleAdapter(list: List<Article>? = null) : RecyclerView.Adapter<Article
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleHolder {
         val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_article, parent, false)
+                .inflate(R.layout.notepad_item_article, parent, false)
         return ArticleHolder(view)
     }
 
-    override fun getItemCount() = mList.size
+    override fun getItemCount(): Int {
+        val result = mList.size
+        if (result <= 0) {
+            emptyView?.visibility = View.VISIBLE
+        } else {
+            emptyView?.visibility = View.GONE
+        }
+        return result
+    }
 
     override fun onBindViewHolder(holder: ArticleHolder, position: Int) {
         val article = mList[position]
@@ -57,7 +67,6 @@ class ArticleAdapter(list: List<Article>? = null) : RecyclerView.Adapter<Article
             onClickItemClickListener?.invoke(article, position)
         }
     }
-
 
 }
 

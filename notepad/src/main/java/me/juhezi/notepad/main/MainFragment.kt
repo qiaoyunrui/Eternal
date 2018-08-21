@@ -27,10 +27,11 @@ class MainFragment : BaseFragment(), MainContract.View {
     private lateinit var rootView: View
     private lateinit var mFab: FloatingActionButton
     private lateinit var mRecyclerView: RecyclerView
+    private lateinit var mEmptyView: View
     private var mAdapter: ArticleAdapter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        rootView = inflater.inflate(R.layout.fragment_main, container, false)
+        rootView = inflater.inflate(R.layout.notepad_fragment_main, container, false)
         initView(rootView)
         initEvent()
         mPresenter?.requestData()
@@ -49,7 +50,9 @@ class MainFragment : BaseFragment(), MainContract.View {
     private fun initView(view: View) {
         mFab = view.findViewById(R.id.fab_main_add_article)
         mRecyclerView = view.findViewById(R.id.rv_main_article_list)
+        mEmptyView = view.findViewById(R.id.vg_no_article)
         mAdapter = ArticleAdapter()
+        mAdapter!!.emptyView = mEmptyView
         val layoutManager = LinearLayoutManager(context)
         mRecyclerView.adapter = mAdapter
         mRecyclerView.layoutManager = layoutManager

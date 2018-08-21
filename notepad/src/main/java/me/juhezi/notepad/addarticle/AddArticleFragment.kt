@@ -32,7 +32,7 @@ class AddArticleFragment : BaseFragment(), AddArticleContract.View {
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        mRootView = inflater.inflate(R.layout.fragment_add_article,
+        mRootView = inflater.inflate(R.layout.notepad_fragment_add_article,
                 container, false)
         initView(mRootView)
         initEvent()

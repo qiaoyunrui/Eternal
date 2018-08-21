@@ -11,7 +11,7 @@
         android:layout_height="@dimen/tool_bar_height"
         android:background="@color/colorPrimary" />
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -20,18 +20,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+        <include layout="@layout/notepad_view_no_article"/>
+
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_main_add_article"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
+            android:layout_gravity="end|bottom"
             android:layout_margin="@dimen/default_margin"
             android:clickable="true"
             android:src="@drawable/ic_add_white"
             app:fabSize="auto"
             app:rippleColor="@color/colorPrimary" />
 
-    </RelativeLayout>
+    </FrameLayout>
 
 </LinearLayout>
