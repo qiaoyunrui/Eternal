@@ -19,6 +19,7 @@ ext {
 
     // Third-party
     gsonVersion = '2.8.5'
+    smartRefreshVersion = '1.0.4'   // SmartRefreshLayout
     // Module
     notepadEnable = false    // 记事本模块
 }
