@@ -3,6 +3,7 @@ package me.juhezi.time
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_time.*
 import me.juhezi.eternal.base.BaseActivity
+import me.juhezi.eternal.extension.i
 import me.juhezi.eternal.global.formatTime
 import java.util.*
 
@@ -15,6 +16,7 @@ class TimeActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_time)
         toolBarVisibility = false
+        i(destination.toGMTString())
     }
 
     override fun onResume() {
@@ -34,7 +36,7 @@ class TimeActivity : BaseActivity() {
      */
     private fun getRemaining(): String {
         val diff = destination.time - System.currentTimeMillis()
-        return formatTime(diff, "D 天 mm 分 ss 秒")
+        return formatTime(diff, "D 天 HH:mm:ss")
     }
 
     private fun startTimer() {
