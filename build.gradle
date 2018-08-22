@@ -21,7 +21,8 @@ ext {
     gsonVersion = '2.8.5'
     smartRefreshVersion = '1.0.4'   // SmartRefreshLayout
     // Module
-    notepadEnable = false    // 记事本模块
+    notepadEnable = false    // notepad 模块
+    timeEnable = false    // time 模块
 }
 
 buildscript {
