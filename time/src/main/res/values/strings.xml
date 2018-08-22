@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Time</string>
+    <string name="remaining">还有</string>
 </resources>

@@ -38,6 +38,7 @@ dependencies {
     api "com.android.support:cardview-v7:$rootProject.ext.supportLibVersion"
     api "com.scwang.smartrefresh:SmartRefreshLayout:$rootProject.ext.smartRefreshVersion"
     api "com.scwang.smartrefresh:SmartRefreshHeader:$rootProject.ext.smartRefreshVersion"
+    api "com.airbnb.android:lottie:$rootProject.ext.lottieVersion"
 }
 repositories {
     mavenCentral()

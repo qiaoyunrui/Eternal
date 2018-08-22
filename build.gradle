@@ -18,8 +18,9 @@ ext {
     // Official
 
     // Third-party
-    gsonVersion = '2.8.5'
+    gsonVersion = '2.8.5'   // Gson
     smartRefreshVersion = '1.0.4'   // SmartRefreshLayout
+    lottieVersion = '2.6.0-beta19'     // Lottie
     // Module
     notepadEnable = false    // notepad 模块
     timeEnable = false    // time 模块
