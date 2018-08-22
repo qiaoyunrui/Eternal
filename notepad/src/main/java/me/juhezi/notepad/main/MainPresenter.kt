@@ -41,6 +41,21 @@ class MainPresenter(private val fragment: MainContract.View,
         })
     }
 
+    override fun refresh() {
+        repo.queryAll({
+            runInUIThread(Runnable {
+                fragment.finishRefresh()
+                fragment.refreshList(it)
+            })
+        }, { message: String, throwable: Throwable ->
+            runInUIThread(Runnable {
+                fragment.finishRefresh()
+                context.showToast("获取数据失败")
+                di("Query All Error: $message")
+                throwable.printStackTrace()
+            })
+        })
+    }
 
 }
 

@@ -10,6 +10,8 @@ interface MainContract {
 
         fun requestData()   // 请求数据
 
+        fun refresh()
+
     }
 
     interface View : BaseView<Presenter> {
@@ -21,6 +23,8 @@ interface MainContract {
         fun refreshList(data: List<Article>)   // 刷新列表
 
         fun addArticle(article: Article, position: Int)     // 添加一个 Article
+
+        fun finishRefresh()
 
     }
 

@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import me.juhezi.eternal.base.BaseFragment
 import me.juhezi.eternal.enum.DialogType
 import me.juhezi.eternal.extension.di
@@ -30,6 +31,7 @@ class MainFragment : BaseFragment(), MainContract.View {
     private lateinit var mFab: FloatingActionButton
     private lateinit var mRecyclerView: RecyclerView
     private lateinit var mEmptyView: View
+    private lateinit var mSmartRefreshLayout: SmartRefreshLayout
     private var mAdapter: ArticleAdapter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -53,6 +55,7 @@ class MainFragment : BaseFragment(), MainContract.View {
         mFab = view.findViewById(R.id.fab_main_add_article)
         mRecyclerView = view.findViewById(R.id.rv_main_article_list)
         mEmptyView = view.findViewById(R.id.vg_no_article)
+        mSmartRefreshLayout = view.findViewById(R.id.srl_main)
         mAdapter = ArticleAdapter()
         mAdapter!!.emptyView = mEmptyView
         val layoutManager = LinearLayoutManager(context)
@@ -70,6 +73,9 @@ class MainFragment : BaseFragment(), MainContract.View {
     private fun initEvent() {
         mFab.setOnClickListener {
             startActivityForResult(AddArticleActivity.newIntent(context!!), ADD_ARTICLE_REQUEST_CODE)
+        }
+        mSmartRefreshLayout.setOnRefreshListener {
+            mPresenter?.refresh()
         }
     }
 
@@ -107,6 +113,10 @@ class MainFragment : BaseFragment(), MainContract.View {
 
     override fun addArticle(article: Article, position: Int) {
         mAdapter?.addArticle(article, position)
+    }
+
+    override fun finishRefresh() {
+        mSmartRefreshLayout.finishRefresh()
     }
 
 }
