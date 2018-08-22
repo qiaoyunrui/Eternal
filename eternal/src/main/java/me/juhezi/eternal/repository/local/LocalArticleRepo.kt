@@ -43,7 +43,15 @@ class LocalArticleRepo : IArticleRepo {
     }
 
     override fun query(id: String, success: Success<Article>?, fail: Fail?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        globalRealm.executeTransactionAsync({
+            val article = it.where(Article::class.java)
+                    .equalTo("id", id)
+                    .findFirst()
+            success?.invoke(it.copyFromRealm(article)!!)
+        }, { error ->
+            fail?.invoke("Query Error", error)
+        })
+
     }
 
     override fun queryAll(success: Success<List<Article>>?, fail: Fail?) {

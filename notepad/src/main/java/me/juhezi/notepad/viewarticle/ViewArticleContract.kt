@@ -10,6 +10,8 @@ interface ViewArticleContract {
 
         fun remove(id: String)
 
+        fun refresh(id: String)
+
     }
 
     interface View : BaseView<Presenter> {
@@ -21,6 +23,8 @@ interface ViewArticleContract {
         fun hideLoading()
 
         fun setResult()
+
+        fun finishRefresh()
     }
 
 }

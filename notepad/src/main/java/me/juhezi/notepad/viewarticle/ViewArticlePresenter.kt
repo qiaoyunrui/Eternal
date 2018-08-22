@@ -32,7 +32,23 @@ class ViewArticlePresenter(private val fragment: ViewArticleContract.View,
             runInUIThread(Runnable {
                 context.showToast("删除失败")
                 fragment.hideLoading()
-                di("Add Error: $message")
+                di("Remove Error: $message")
+                throwable.printStackTrace()
+            })
+        })
+    }
+
+    override fun refresh(id: String) {
+        repo.query(id, {
+            runInUIThread(Runnable {
+                fragment.finishRefresh()
+                fragment.showArticle(it)
+            })
+        }, { message: String, throwable: Throwable ->
+            runInUIThread(Runnable {
+                fragment.finishRefresh()
+                context.showToast("获取日记失败")
+                di("Refresh Error: $message")
                 throwable.printStackTrace()
             })
         })

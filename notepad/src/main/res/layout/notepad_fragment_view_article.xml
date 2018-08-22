@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,43 +12,55 @@
         android:layout_height="@dimen/tool_bar_height"
         android:background="@color/colorPrimary" />
 
-    <ScrollView
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/srl_view_article"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <me.juhezi.eternal.widget.header.EternalBezierCircleHeader
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            app:AniBackColor="@color/colorPrimary" />
 
-            <TextView
-                android:id="@+id/tv_view_article_title"
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/title"
-                android:textSize="@dimen/text_size_28"
-                android:textStyle="bold" />
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_view_article_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
-                android:layout_marginTop="8dp"
-                android:background="@null"
-                android:hint="@string/input_something"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/text_size_18"
-                tools:text="大家应该用过网易新闻客户端，没有使用的可以下载下来看看客户端的界面，它里面就是通过该方法进行判断的，滑动界面切换Fragment，不可见的Fragment数据不加载，切换到可见的时候，在进行加载数据进行显示。另外值得一提的是，网易新闻客户端使用到了缓存，其实缓存很简单的。" />
+                <TextView
+                    android:id="@+id/tv_view_article_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/title"
+                    android:textSize="@dimen/text_size_28"
+                    android:textStyle="bold" />
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_view_article_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@null"
+                    android:hint="@string/input_something"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_size_18"
+                    tools:text="大家应该用过网易新闻客户端，没有使用的可以下载下来看看客户端的界面，它里面就是通过该方法进行判断的，滑动界面切换Fragment，不可见的Fragment数据不加载，切换到可见的时候，在进行加载数据进行显示。另外值得一提的是，网易新闻客户端使用到了缓存，其实缓存很简单的。" />
 
-    </ScrollView>
+            </LinearLayout>
+
+        </ScrollView>
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 </LinearLayout>

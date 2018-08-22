@@ -7,7 +7,7 @@ import me.juhezi.eternal.other.CrashHandler
 /**
  * Created by Juhezi[juhezix@163.com] on 2018/7/24.
  */
-class BaseApplication : Application() {
+open class BaseApplication : Application() {
 
     companion object {
         @JvmStatic

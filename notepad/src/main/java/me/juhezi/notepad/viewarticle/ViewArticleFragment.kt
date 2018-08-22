@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import me.juhezi.eternal.base.BaseDialog
 import me.juhezi.eternal.base.BaseFragment
 import me.juhezi.eternal.enum.DialogType
@@ -25,6 +26,7 @@ class ViewArticleFragment : BaseFragment(), ViewArticleContract.View {
     private lateinit var mToolbar: EternalToolbar
     private lateinit var mTvTitle: TextView
     private lateinit var mTvContent: TextView
+    private lateinit var mSmartRefreshLayout: SmartRefreshLayout
     private var article: Article? = null
 
     companion object {
@@ -41,6 +43,7 @@ class ViewArticleFragment : BaseFragment(), ViewArticleContract.View {
         mToolbar = mRootView.findViewById(R.id.tb_view_article)
         mTvContent = mRootView.findViewById(R.id.tv_view_article_content)
         mTvTitle = mRootView.findViewById(R.id.tv_view_article_title)
+        mSmartRefreshLayout = mRootView.findViewById(R.id.srl_view_article)
         with(mToolbar) {
             leftStyle = ToolbarStyle.ICON_AND_TEXT
             onLeftGroupIconClickListener = {
@@ -50,6 +53,9 @@ class ViewArticleFragment : BaseFragment(), ViewArticleContract.View {
             onRightIconClickListener = {
                 showDialog(DialogType.OPERATION)
             }
+        }
+        mSmartRefreshLayout.setOnRefreshListener {
+            mPresenter?.refresh(article?.id ?: "")
         }
         configDialog()
         initData()
@@ -130,6 +136,10 @@ class ViewArticleFragment : BaseFragment(), ViewArticleContract.View {
         //todo 之后这里可以回传一个 Article， 然后主页面只需要删除一个 Item 即可，不需要全局刷新
         activity?.setResult(DELETE_ARTICLE_RESULT_CODE)
         activity?.finish()
+    }
+
+    override fun finishRefresh() {
+        mSmartRefreshLayout.finishRefresh()
     }
 
 }

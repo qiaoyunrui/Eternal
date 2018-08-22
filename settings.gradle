@@ -1,4 +1,4 @@
 //include ':remove'
-include ':notepad'
+include ':notepad', ':time'
 include ':eternal'
 include ':main'

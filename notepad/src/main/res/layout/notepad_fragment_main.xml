@@ -15,12 +15,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_main_article_list"
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
 
-        <include layout="@layout/notepad_view_no_article"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_main_article_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+        <include layout="@layout/notepad_view_no_article" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_main_add_article"
