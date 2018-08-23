@@ -3,7 +3,8 @@ package me.juhezi.time
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_time.*
 import me.juhezi.eternal.base.BaseActivity
-import me.juhezi.eternal.extension.i
+import me.juhezi.eternal.builder.buildTypeface
+import me.juhezi.eternal.global.荷包鼓鼓
 import java.util.*
 
 class TimeActivity : BaseActivity() {
@@ -18,9 +19,10 @@ class TimeActivity : BaseActivity() {
         setContentView(R.layout.activity_time)
         toolBarVisibility = false
         destination.time = Date(2018 - 1900, 11, 22)
-        i("${destination[Calendar.YEAR]}\t${destination[Calendar.MONTH]}" +
-                "\t${destination[Calendar.DAY_OF_MONTH]}\t${destination[Calendar.HOUR_OF_DAY]}" +
-                "\t${destination[Calendar.MINUTE]}\t${destination[Calendar.SECOND]}")
+        tv_time_remaining.typeface = buildTypeface {
+            path = 荷包鼓鼓
+            assetManager = assets
+        }
     }
 
     override fun onResume() {
