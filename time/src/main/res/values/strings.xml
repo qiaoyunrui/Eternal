@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">倒计时</string>
     <string name="remaining">还有</string>
+    <string name="add_one_second">+1s</string>
 </resources>

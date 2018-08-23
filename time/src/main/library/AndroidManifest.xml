@@ -13,7 +13,7 @@
         tools:replace="android:theme">
 
         <activity
-            android:name=".TimeActivity"
+            android:name=".activity.TimeActivity"
             android:exported="true" />
 
     </application>

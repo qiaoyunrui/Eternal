@@ -2,6 +2,7 @@ package me.juhezi.eternal.repository.local
 
 import me.juhezi.eternal.global.Fail
 import me.juhezi.eternal.global.Success
+import me.juhezi.eternal.global.globalRealm
 import me.juhezi.eternal.model.Record
 import me.juhezi.eternal.repository.interfaces.IRecordRepo
 
@@ -10,7 +11,13 @@ import me.juhezi.eternal.repository.interfaces.IRecordRepo
  */
 class LocalRecordRepo : IRecordRepo {
     override fun add(t: Record, success: Success<Record>?, fail: Fail?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        globalRealm.executeTransactionAsync({
+            it.copyToRealm(t)
+        }, {
+            success?.invoke(t)
+        }, {
+            fail?.invoke("Add error", it)
+        })
     }
 
     override fun update(t: Record, success: Success<Record>?, fail: Fail?) {
