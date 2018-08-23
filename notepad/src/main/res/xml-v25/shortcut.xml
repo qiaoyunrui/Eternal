@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_edit_primary"
+        android:shortcutDisabledMessage="@string/add_article"
+        android:shortcutId="new_article"
+        android:shortcutLongLabel="@string/add_article_detailed"
+        android:shortcutShortLabel="@string/add_article">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="me.juhezi.notepad.addarticle.AddArticleActivity"
+            android:targetPackage="me.juhezi.eternal.notepad" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+
+</shortcuts>
