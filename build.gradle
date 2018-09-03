@@ -1,3 +1,5 @@
+import groovy.json.JsonSlurper
+
 ext {
     // Project
     mainApplicationId = "me.juhezi.eternal"
@@ -48,4 +50,26 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+/**
+ * 获取签名信息
+ */
+def internalGetSigningConfigs() {
+    def dir = new File(".")
+    def jsonPath = "${dir.getCanonicalPath()}/${signJsonPath}"
+    def jsonFile = new File(jsonPath)
+    if (!jsonFile.exists())
+        return null
+    else {
+        def json = jsonFile.text
+        def parser = new JsonSlurper()
+        return parser.parseText(json)
+    }
+}
+
+task getSigningConfigs() {
+    doLast {
+        println internalGetSigningConfigs()
+    }
 }

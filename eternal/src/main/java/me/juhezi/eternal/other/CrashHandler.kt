@@ -1,9 +1,13 @@
 package me.juhezi.eternal.other
 
+import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Environment
+import android.support.v4.app.ActivityCompat
+import me.juhezi.eternal.extension.e
+import me.juhezi.eternal.global.SDCARD_DIR
 import me.juhezi.eternal.global.formatTime
 import me.juhezi.eternal.global.logi
 import java.io.BufferedWriter
@@ -15,22 +19,24 @@ import java.util.concurrent.Executors
 class CrashHandler(val context: Context) : Thread.UncaughtExceptionHandler {
 
     companion object {
-        var PATH = "${Environment.getExternalStorageDirectory().path}/log/"
+        var PATH = "${Environment.getExternalStorageDirectory().path}$SDCARD_DIR"
         const val FILE_NAME = "crash"
         const val FILE_NAME_SUFFIX = ".log"
     }
+
+    var defaultExceptionHandler =
+            Thread.getDefaultUncaughtExceptionHandler()
 
     init {
         Thread.setDefaultUncaughtExceptionHandler(this)
     }
 
     override fun uncaughtException(t: Thread?, e: Throwable?) {
-        handleException(e)
-        try {
-            Thread.sleep(2000)
-        } catch (e: InterruptedException) {
-            e.printStackTrace()
+        if (PackageManager.PERMISSION_GRANTED == ActivityCompat
+                        .checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            handleException(e)
         }
+        defaultExceptionHandler.uncaughtException(t, e)
     }
 
     private fun handleException(exception: Throwable?) {
@@ -49,14 +55,19 @@ class CrashHandler(val context: Context) : Thread.UncaughtExceptionHandler {
         if (Environment.getExternalStorageState() != Environment.MEDIA_MOUNTED) {
             logi("sdcard not find ,skip dump exception")
         }
-
         val dir = File(PATH)
         if (!dir.exists()) {
             dir.mkdirs()
         }
         val currentTime = System.currentTimeMillis()
         val timeStr = formatTime(currentTime)
-        val file = File("$PATH$FILE_NAME$timeStr$FILE_NAME_SUFFIX")
+        val file = File("$PATH${FILE_NAME}_$timeStr$FILE_NAME_SUFFIX")
+        try {
+            file.createNewFile()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        e("Write to ${file.path}")
         try {
             val pw = PrintWriter(BufferedWriter(FileWriter(file)))
             pw.println(timeStr)

@@ -9,6 +9,15 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 android {
+
+    signingConfigs {
+        Release {
+            keyAlias internalGetSigningConfigs().keyAlias
+            keyPassword internalGetSigningConfigs().keyPassword
+            storeFile file(storeFilePath)
+            storePassword internalGetSigningConfigs().storePassword
+        }
+    }
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     defaultConfig {
@@ -20,6 +29,7 @@ android {
         versionCode rootProject.ext.globalVersionCode as int
         versionName rootProject.ext.globalVersionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.Release
     }
 
     buildTypes {
@@ -38,11 +48,12 @@ android {
             }
         }
     }
-
+    productFlavors {
+    }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "com.android.support:appcompat-v7:$rootProject.ext.supportLibVersion"
     testImplementation "junit:junit:$rootProject.ext.junitVersion"

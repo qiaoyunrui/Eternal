@@ -1,7 +1,7 @@
 package me.juhezi.eternal.base
 
 import android.app.Application
-import io.realm.Realm
+import me.juhezi.eternal.db.DB
 import me.juhezi.eternal.other.CrashHandler
 
 /**
@@ -18,9 +18,9 @@ open class BaseApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        CrashHandler(this)
-        Realm.init(this)
         sContext = this
+        CrashHandler(this)
+        DB.init()
     }
 
 }
