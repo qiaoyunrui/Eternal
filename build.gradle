@@ -59,9 +59,11 @@ def internalGetSigningConfigs() {
     def dir = new File(".")
     def jsonPath = "${dir.getCanonicalPath()}/${signJsonPath}"
     def jsonFile = new File(jsonPath)
-    if (!jsonFile.exists())
-        return null
-    else {
+    if (!jsonFile.exists()) {
+        return ['keyAlias'     : '',
+                'keyPassword'  : '',
+                'storePassword': '']
+    } else {
         def json = jsonFile.text
         def parser = new JsonSlurper()
         return parser.parseText(json)
