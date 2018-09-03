@@ -19,6 +19,7 @@ Updating
 
 - [x] Crash Record
 - [x] Remove Article
+- [x] Refresh Article
 
 ### 0.0.4
 
