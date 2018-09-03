@@ -17,7 +17,12 @@ Updating
 
 ### 0.0.3
 
-- [ ] Crash Record
+- [x] Crash Record
+- [x] Remove Article
+
+### 0.0.4
+
 - [ ] Edit Article
-- [ ] Remove Article
 - [ ] Draft Box
+- [ ] Export Articles
+- [ ] Import Articles
