@@ -1,4 +1,4 @@
-package me.juhezi.notepad.main
+package me.juhezi.notepad.articles
 
 import android.content.Context
 import me.juhezi.eternal.extension.di
@@ -7,8 +7,8 @@ import me.juhezi.eternal.global.runInUIThread
 import me.juhezi.eternal.repository.impl.ArticleRepo
 import me.juhezi.eternal.repository.interfaces.IArticleRepo
 
-class MainPresenter(private val fragment: MainContract.View,
-                    private val context: Context) : MainContract.Presenter {
+class ArticlesPresenter(private val fragment: ArticlesContract.View,
+                        private val context: Context) : ArticlesContract.Presenter {
 
     var repo: IArticleRepo
 

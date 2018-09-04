@@ -1,10 +1,10 @@
-package me.juhezi.notepad.main
+package me.juhezi.notepad.articles
 
 import me.juhezi.eternal.base.BasePresenter
 import me.juhezi.eternal.base.BaseView
 import me.juhezi.eternal.model.Article
 
-interface MainContract {
+interface ArticlesContract {
 
     interface Presenter : BasePresenter {
 

@@ -1,4 +1,4 @@
-package me.juhezi.notepad.main
+package me.juhezi.notepad.articles
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater

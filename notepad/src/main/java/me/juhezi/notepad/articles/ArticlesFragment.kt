@@ -1,5 +1,6 @@
-package me.juhezi.notepad.main
+package me.juhezi.notepad.articles
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
@@ -22,11 +23,21 @@ import me.juhezi.notepad.addarticle.AddArticleActivity
 import me.juhezi.notepad.addarticle.AddArticleFragment
 import me.juhezi.notepad.viewarticle.ViewArticleActivity
 
-class MainFragment : BaseFragment(), MainContract.View {
+class ArticlesFragment : BaseFragment(), ArticlesContract.View {
 
-    // 应该添加标题的
+    companion object {
 
-    private var mPresenter: MainContract.Presenter? = null
+        /**
+         * 直接创建 ArticlesFragment 和 对应的 Presenter
+         */
+        @JvmStatic
+        fun newInstance(context: Context): Pair<ArticlesFragment, ArticlesPresenter> {
+            val fragment = ArticlesFragment()
+            return fragment to ArticlesPresenter(fragment, context)
+        }
+    }
+
+    private var mPresenter: ArticlesContract.Presenter? = null
     private lateinit var rootView: View
     private lateinit var mFab: FloatingActionButton
     private lateinit var mRecyclerView: RecyclerView
@@ -42,7 +53,7 @@ class MainFragment : BaseFragment(), MainContract.View {
         return rootView
     }
 
-    override fun setPresenter(t: MainContract.Presenter) {
+    override fun setPresenter(t: ArticlesContract.Presenter) {
         mPresenter = t
     }
 
