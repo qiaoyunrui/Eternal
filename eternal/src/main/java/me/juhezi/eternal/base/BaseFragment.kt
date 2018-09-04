@@ -47,4 +47,13 @@ open class BaseFragment : Fragment() {
             EternalOperationDialog(context)
     }
 
+    /**
+     * Fragment 的返回事件
+     * @return true: 对返回事件进行拦截 false：对返回事件不进行拦截
+     * 默认返回 false，不进行拦截
+     */
+    open fun handleBackPressed(): Boolean {
+        return false
+    }
+
 }

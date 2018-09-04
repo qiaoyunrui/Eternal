@@ -9,5 +9,5 @@ import me.juhezi.eternal.base.BaseDialog
  */
 class EternalAlertDialog(context: Context?, theme: Int = R.style.full_screen_dialog) :
         BaseDialog(context, theme) {
-    
+    //todo 和 AlertDialog 的使用方法类似
 }
