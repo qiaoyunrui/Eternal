@@ -39,6 +39,7 @@ dependencies {
     api "com.scwang.smartrefresh:SmartRefreshLayout:$rootProject.ext.smartRefreshVersion"
     api "com.scwang.smartrefresh:SmartRefreshHeader:$rootProject.ext.smartRefreshVersion"
     api "com.airbnb.android:lottie:$rootProject.ext.lottieVersion"
+    api "com.android.support.constraint:constraint-layout:$rootProject.ext.constraintLayoutVersion"
 }
 repositories {
     mavenCentral()

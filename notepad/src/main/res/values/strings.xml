@@ -2,5 +2,7 @@
     <string name="app_name">日记</string>
     <string name="no_article">还没有日记呢</string>
     <string name="add_article">写日记</string>
-    <string name="add_article_detailed">添加新的日记，记录你的生活</string>
+    <string name="add_article_detail">添加新的日记，记录你的生活</string>
+    <string name="article_list">日记列表</string>
+    <string name="article_list_detail">快来看看写了那些日记吧</string>
 </resources>

@@ -13,6 +13,10 @@
         tools:replace="android:theme">
 
         <activity
+            android:name=".NotepadMainActivity"
+            android:exported="true" />
+
+        <activity
             android:name=".articles.ArticlesActivity"
             android:exported="true" />
 

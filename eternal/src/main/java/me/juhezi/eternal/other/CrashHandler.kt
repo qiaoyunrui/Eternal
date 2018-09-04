@@ -88,8 +88,7 @@ class CrashHandler(val context: Context) : Thread.UncaughtExceptionHandler {
         pw.print("App Version:${pi.versionName}_${pi.versionCode}\n" +
                 "OS Version:${Build.VERSION.RELEASE}_${Build.VERSION.SDK_INT}\n" +
                 "Vendor:${Build.MANUFACTURER}\n" +
-                "Model:${Build.MODEL}\n" +
-                "Cpu ABI:${Build.CPU_ABI}\n")
+                "Model:${Build.MODEL}\n")
     }
 
 

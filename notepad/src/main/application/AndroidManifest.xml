@@ -13,7 +13,7 @@
         android:theme="@style/BaseAppTheme"
         tools:replace="android:theme">
 
-        <activity android:name=".articles.ArticlesActivity">
+        <activity android:name=".NotepadMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,7 +23,11 @@
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcut" />
         </activity>
-        
+
+        <activity
+            android:name=".articles.ArticlesActivity"
+            android:exported="true" />
+
         <activity
             android:name=".addarticle.AddArticleActivity"
             android:exported="true" />
