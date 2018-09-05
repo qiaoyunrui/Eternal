@@ -3,7 +3,7 @@
 
     <shortcut
         android:enabled="true"
-        android:icon="@drawable/ic_edit_primary"
+        android:icon="@drawable/notepad_ic_write"
         android:shortcutDisabledMessage="@string/add_article"
         android:shortcutId="new_article"
         android:shortcutLongLabel="@string/add_article_detail"
