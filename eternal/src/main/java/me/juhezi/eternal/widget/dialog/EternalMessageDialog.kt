@@ -50,13 +50,17 @@ class EternalMessageDialog(context: Context?, theme: Int = R.style.full_screen_d
                           message: String? = null,
                           buttonContent: String? = null) {
         mTvTitle.text = title ?: context.getString(R.string.notice)
-        if (isEmpty(message)) {
+        mTvMessage.text = message
+        mButton.text = buttonContent ?: context.getString(R.string.confirm)
+    }
+
+    override fun show() {
+        if (isEmpty(mTvMessage.text.toString())) {
             mTvMessage.visibility = View.GONE
         } else {
             mTvMessage.visibility = View.VISIBLE
-            mTvMessage.text = message
         }
-        mButton.text = buttonContent ?: context.getString(R.string.confirm)
+        super.show()
     }
 
 }

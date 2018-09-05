@@ -1,6 +1,9 @@
-
 package me.juhezi.eternal.repository.impl
 
+import me.juhezi.eternal.global.Fail
+import me.juhezi.eternal.global.Success
+import me.juhezi.eternal.global.globalGson
+import me.juhezi.eternal.model.bean.ArticleListWrapper
 import me.juhezi.eternal.repository.interfaces.IArticleRepo
 import me.juhezi.eternal.repository.local.LocalArticleRepo
 import me.juhezi.eternal.repository.remote.RemoteArticleRepo
@@ -10,23 +13,17 @@ import me.juhezi.eternal.repository.remote.RemoteArticleRepo
  */
 class ArticleRepo(var localRepo: IArticleRepo = LocalArticleRepo(),
                   var remoteRepo: IArticleRepo = RemoteArticleRepo()) : IArticleRepo by localRepo {
-    /*override fun add(t: Article, success: Success<Article>?, fail: Fail?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+    /**
+     * 导出所有的 Article
+     */
+    fun export(success: Success<String>?, fail: Fail?) {
+        queryAll({
+            success?.invoke(
+                    globalGson
+                            .toJson(ArticleListWrapper()
+                                    .setArticles(it)))
+        }, fail)
     }
 
-    override fun update(t: Article, success: Success<Article>?, fail: Fail?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun remove(id: String, success: Success<Article>?, fail: Fail?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun query(id: String, success: Success<Article>?, fail: Fail?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun queryAll(success: Success<List<Article>>?, fail: Fail?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }*/
 }
