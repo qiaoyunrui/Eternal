@@ -1,9 +1,11 @@
 package me.juhezi.main
 
 import android.os.Bundle
+import kotlinx.android.synthetic.main.activity_main.*
 import me.juhezi.eternal.base.BaseActivity
 import me.juhezi.eternal.enum.ToolbarStyle
 import me.juhezi.eternal.global.logi
+import me.juhezi.eternal.plugin.PluginManager
 import me.juhezi.eternal.widget.dialog.EternalOperationDialog
 import me.juhezi.eternal.widget.view.EternalToolbar
 
@@ -33,5 +35,7 @@ class MainActivity : BaseActivity() {
         toolbar.onRightIconClickListener = {
             operationDialog.show()
         }
+        val testPlugin = PluginManager.getInstance().createTestPluginInstance()
+        tv_show.text = testPlugin?.getDateFromTimeStamp("yyyy-MM-dd", System.currentTimeMillis())
     }
 }

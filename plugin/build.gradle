@@ -18,6 +18,27 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            // 将生成的 apk 放下 main 的 assets 目录下
+            // 只能使用相对路径，麻瓜
+            applicationVariants.all { variant ->
+                variant.outputs.all { output ->
+                    def outputPath = "/main/src/main/assets/plugin/plugin.apk"
+                    def relativeRootDir = output.packageApplication.outputDirectory.toPath()
+                            .relativize(rootDir.toPath()).toFile()
+                    def result = relativeRootDir.path + outputPath
+//                    println(output.packageApplication.outputDirectory.toPath())
+//                    println(rootDir.toPath())
+//                    println(relativeRootDir.toPath())
+//                    println(result)
+                    if (exportToMainAssets.toBoolean()) {
+                        outputFileName = result
+                    } else {
+                        outputFileName = "plugin.apk"
+                    }
+                }
+            }
+
         }
     }
 
