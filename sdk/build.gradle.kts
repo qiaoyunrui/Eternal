@@ -1,9 +1,5 @@
-import org.jetbrains.kotlin.config.KotlinCompilerVersion
-
 plugins {
     id("com.android.library")
-    id("kotlin-android")
-    id("kotlin-android-extensions")
 }
 
 android {
@@ -27,7 +23,6 @@ android {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    implementation(kotlin("stdlib-jdk7", KotlinCompilerVersion.VERSION))
     testImplementation("junit:junit:${ext("junitVersion")}")
     androidTestImplementation("com.android.support.test:runner:${ext("runnerVersion")}")
     androidTestImplementation("com.android.support.test.espresso:espresso-core:${ext("espressoVersion")}")
