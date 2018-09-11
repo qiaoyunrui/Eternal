@@ -3,9 +3,12 @@ package me.juhezi.eternal.extension
 import android.content.Context
 import android.graphics.Point
 import android.net.Uri
+import android.support.annotation.RawRes
 import android.view.WindowManager
 import android.widget.Toast
 import me.juhezi.eternal.util.UriUtils
+import java.io.BufferedReader
+import java.io.InputStreamReader
 
 fun Context.getScreenWidth(): Int {
     val wm = getSystemService(Context.WINDOW_SERVICE) as WindowManager
@@ -90,3 +93,22 @@ fun Context.showToast(message: String) {
  * 获取 URI 对应的真实路径
  */
 fun Context.getRealPathFromUri(uri: Uri): String = UriUtils.getPathFromUri(this, uri)
+
+fun Context.readContentFromRaw(@RawRes resourceId: Int): String {
+    return try {
+        val inputStream = resources.openRawResource(resourceId)
+        val inputStreamReader = InputStreamReader(inputStream)
+        val bufferedReader = BufferedReader(inputStreamReader)
+        buildString {
+            var nextLine = bufferedReader.readLine()
+            while (nextLine != null) {
+                append(nextLine)
+                append('\n')
+                nextLine = bufferedReader.readLine()
+            }
+        }
+    } catch (e: Exception) {
+        ""
+    }
+}
+

@@ -87,6 +87,12 @@ open class BaseActivity : AppCompatActivity() {
         mBaseViewController.load(BaseViewController.STATUS_CONTENT, mContentView)
     }
 
+    override fun setContentView(view: View?) {
+        if (view == null) return
+        mContainer?.addView(view, mLayoutParams)
+        mBaseViewController.load(BaseViewController.STATUS_CONTENT, mContentView)
+    }
+
     open fun onLoadLoadingView() {
         mLoadingView = mInflater?.inflate(mLoadingViewResId, null)
         mContainer?.addView(mLoadingView, mLayoutParams)
