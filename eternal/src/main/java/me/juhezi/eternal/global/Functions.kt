@@ -35,6 +35,12 @@ fun logd(message: String) {
     }
 }
 
+fun logw(message: String) {
+    if (isDebug()) {
+        Log.w(TAG, message)
+    }
+}
+
 @SuppressLint("MissingPermission", "HardwareIds")
 fun getIMEI(): String {
     val telManager = BaseApplication.getApplicationContext()

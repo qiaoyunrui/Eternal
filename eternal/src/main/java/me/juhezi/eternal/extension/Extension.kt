@@ -52,3 +52,11 @@ fun Any.di(message: String) {
         i(message)
     }
 }
+
+fun IntArray.value(): Int {
+    return if (isEmpty()) {
+        0
+    } else {
+        this[0]
+    }
+}
