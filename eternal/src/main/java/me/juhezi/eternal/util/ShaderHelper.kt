@@ -2,6 +2,7 @@ package me.juhezi.eternal.util
 
 import android.opengl.GLES20.*
 import me.juhezi.eternal.extension.value
+import me.juhezi.eternal.global.isDebug
 import me.juhezi.eternal.global.logw
 
 object ShaderHelper {
@@ -63,5 +64,16 @@ object ShaderHelper {
         return validateStatus.value() != 0
     }
 
+    fun buildProgram(vertexShaderSource: String,
+                     fragmentShaderSource: String): Int {
+        val vertexShader = compileVertexShader(vertexShaderSource)
+        val fragmentShader = compileFragmentShader(fragmentShaderSource)
+
+        val program = linkProgram(vertexShader, fragmentShader)
+        if (isDebug()) {
+            validateProgram(program)
+        }
+        return program
+    }
 
 }

@@ -111,4 +111,3 @@ fun Context.readContentFromRaw(@RawRes resourceId: Int): String {
         ""
     }
 }
-
