@@ -9,6 +9,5 @@
 /captures
 .externalNativeBuild
 .idea/
-/demo/
 /*/release/
 sign.json
