@@ -19,6 +19,8 @@ public class ImageActivity extends BaseActivity {
 
     private static final String TAG = "ImageActivity";
 
+    private GPUImage gpuImage;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,8 +50,10 @@ public class ImageActivity extends BaseActivity {
     }
 
     private void doGpuImage(Uri uri) {
-        GPUImage gpuImage = new GPUImage(this);
-        gpuImage.setGLSurfaceView(findViewById(R.id.glsv_demo_show));
+        if (gpuImage == null) {
+            gpuImage = new GPUImage(this);
+            gpuImage.setGLSurfaceView(findViewById(R.id.glsv_demo_show));
+        }
         gpuImage.setImage(uri);
         gpuImage.setFilter(new GPUImageSepiaFilter());
     }
