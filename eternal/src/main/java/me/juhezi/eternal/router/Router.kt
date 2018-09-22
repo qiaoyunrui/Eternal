@@ -12,7 +12,7 @@ class Router {
 
     companion object {
 
-        fun turnAddArticleActivity(context: Context, config: RouterConfig) {}
+        fun turnAddArticleActivity(context: Context, bundle: RouterBundle) {}
 
     }
 

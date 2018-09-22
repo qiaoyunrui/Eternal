@@ -12,7 +12,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Button;
 
@@ -20,6 +19,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 
 import me.juhezi.eternal.base.BaseActivity;
+import me.juhezi.eternal.router.OriginalPicker;
 import me.juhezi.eternal.util.UriUtils;
 
 // mp3 -> pcm ->
@@ -29,6 +29,7 @@ public class MainActivity extends BaseActivity {
 
     private Button mPickAudioButton;
     private Button mGLButton;
+    private Button mGpuImageButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,14 +38,16 @@ public class MainActivity extends BaseActivity {
         mPickAudioButton = findViewById(R.id.btn_demo_pick_audio);
         mPickAudioButton.setOnClickListener(v -> {
             if (!checkPermission()) return;
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.setType("audio/*");
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            Intent intent = OriginalPicker.getIntent(OriginalPicker.Type.AUDIO);
             startActivityForResult(intent, 0x123);
         });
         mGLButton = findViewById(R.id.btn_demo_gl);
         mGLButton.setOnClickListener(v ->
                 startActivity(new Intent(this, GLActivity.class)));
+        mGpuImageButton = findViewById(R.id.btn_demo_gpu_image);
+        mGpuImageButton.setOnClickListener(v -> {
+            startActivity(new Intent(this, ImageActivity.class));
+        });
     }
 
     @Override

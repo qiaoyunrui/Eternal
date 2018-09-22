@@ -23,4 +23,13 @@
         android:text="OpenGL"
         android:textColor="@android:color/white" />
 
+
+    <Button
+        android:id="@+id/btn_demo_gpu_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorAccent"
+        android:text="GpuImage"
+        android:textColor="@android:color/white" />
+
 </LinearLayout>
