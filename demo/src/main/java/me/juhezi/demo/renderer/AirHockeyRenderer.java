@@ -9,6 +9,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 import me.juhezi.demo.R;
 import me.juhezi.demo.objects.Mallet;
+import me.juhezi.demo.objects.Puck;
 import me.juhezi.demo.objects.Table;
 import me.juhezi.demo.programs.ColorShaderProgram;
 import me.juhezi.demo.programs.TextureShaderProgram;
@@ -27,10 +28,15 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
     private final float[] modelMatrix = new float[16];
     private final float[] projectionMatrix = new float[16];
 
+    private final float[] viewMatrix = new float[16];
+    private final float[] viewProjectionMatrix = new float[16];
+    private final float[] modelViewProjectionMatrix = new float[16];
+
     private Context context;
 
     private Table table;
     private Mallet mallet;
+    private Puck puck;
 
     private TextureShaderProgram textureProgram;
     private ColorShaderProgram colorProgram;
@@ -52,7 +58,8 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
         table = new Table();
-        mallet = new Mallet();
+        mallet = new Mallet(0.08f, 0.15f, 32);
+        puck = new Puck(0.06f, 0.02f, 32);
 
         textureProgram = new TextureShaderProgram(context);
         colorProgram = new ColorShaderProgram(context);
@@ -71,12 +78,10 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
     public void onSurfaceChanged(GL10 gl, int width, int height) {
         glViewport(0, 0, width, height);
         Matrix.perspectiveM(projectionMatrix, 0, 45, (float) width / (float) height, 1f, 10f);
-        Matrix.setIdentityM(modelMatrix, 0);    // 将模型矩阵设置为单位矩阵
-        Matrix.translateM(modelMatrix, 0, 0f, 0f, -2.5f); // 再沿 z 轴平移 -2.5
-        Matrix.rotateM(modelMatrix, 0, -60f, 1f, 0f, 0f);
-        final float[] temp = new float[16];
-        Matrix.multiplyMM(temp, 0, projectionMatrix, 0, modelMatrix, 0);
-        System.arraycopy(temp, 0, projectionMatrix, 0, temp.length);
+        Matrix.setLookAtM(viewMatrix, 0,
+                0f, 1.2f, 2.2f,
+                0f, 0f, 0f,
+                0f, 1f, 0f);
     }
 
     /**
@@ -90,14 +95,47 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
     public void onDrawFrame(GL10 gl) {
         glClear(GL_COLOR_BUFFER_BIT);
 
+        Matrix.multiplyMM(viewProjectionMatrix, 0,
+                projectionMatrix, 0,
+                viewMatrix, 0);
+
+        positionTableInScene();
         textureProgram.useProgram();
-        textureProgram.setUniforms(projectionMatrix, texture);
+        textureProgram.setUniforms(modelViewProjectionMatrix, texture);
         table.bindData(textureProgram);
         table.draw();
 
+        positionObjectInScene(0f, mallet.height / 2f, -0.4f);
         colorProgram.useProgram();
-        colorProgram.setUniforms(projectionMatrix);
+        colorProgram.setUniforms(modelViewProjectionMatrix, 1f, 0f, 0f);
         mallet.bindData(colorProgram);
         mallet.draw();
+
+        positionObjectInScene(0f, mallet.height / 2f, 0.4f);
+        colorProgram.setUniforms(modelViewProjectionMatrix, 0f, 0f, 1f);
+        mallet.draw();
+
+        positionObjectInScene(0f, puck.height / 2f, 0f);
+        colorProgram.setUniforms(modelViewProjectionMatrix, 0.8f, 0.8f, 1f);
+        puck.bindData(colorProgram);
+        puck.draw();
     }
+
+    private void positionTableInScene() {
+        Matrix.setIdentityM(modelMatrix, 0);
+        Matrix.rotateM(modelMatrix, 0, -90f, 1f, 0f, 0f);
+        Matrix.multiplyMM(modelViewProjectionMatrix, 0,
+                viewProjectionMatrix, 0,
+                modelMatrix, 0);
+    }
+
+    private void positionObjectInScene(float x, float y, float z) {
+        Matrix.setIdentityM(modelMatrix, 0);
+        Matrix.translateM(modelMatrix, 0, x, y, z);
+        Matrix.multiplyMM(modelViewProjectionMatrix, 0,
+                viewProjectionMatrix, 0,
+                modelMatrix, 0);
+    }
+
+
 }
