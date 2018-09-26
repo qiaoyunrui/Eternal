@@ -3,11 +3,13 @@ package me.juhezi.demo.renderer;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
+import android.util.Log;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import me.juhezi.demo.R;
+import me.juhezi.demo.objects.Geometry;
 import me.juhezi.demo.objects.Mallet;
 import me.juhezi.demo.objects.Puck;
 import me.juhezi.demo.objects.Table;
@@ -43,6 +45,12 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
 
     private int texture;
 
+    private boolean malletPressed = false;
+    private Geometry.Point blueMalletPosition;
+
+    // 反转的矩阵
+    private final float[] invertedViewProjectionMatrix = new float[16];
+
     public AirHockeyRenderer(Context context) {
         this.context = context;
     }
@@ -60,6 +68,7 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
         table = new Table();
         mallet = new Mallet(0.08f, 0.15f, 32);
         puck = new Puck(0.06f, 0.02f, 32);
+        blueMalletPosition = new Geometry.Point(0f, mallet.height / 2f, 0.4f);
 
         textureProgram = new TextureShaderProgram(context);
         colorProgram = new ColorShaderProgram(context);
@@ -101,6 +110,9 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
                 projectionMatrix, 0,
                 viewMatrix, 0);
 
+        // 创建一个反转的矩阵
+        Matrix.invertM(invertedViewProjectionMatrix, 0, viewProjectionMatrix, 0);
+
         positionTableInScene();
         textureProgram.useProgram();
         textureProgram.setUniforms(modelViewProjectionMatrix, texture);
@@ -113,7 +125,7 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
         mallet.bindData(colorProgram);
         mallet.draw();
 
-        positionObjectInScene(0f, mallet.height / 2f, 0.4f);
+        positionObjectInScene(blueMalletPosition.x, blueMalletPosition.y, blueMalletPosition.z);
         colorProgram.setUniforms(modelViewProjectionMatrix, 0f, 0f, 1f);
         mallet.draw();
 
@@ -139,5 +151,60 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
                 modelMatrix, 0);
     }
 
+
+    public void handleTouchPress(float normalizedX, float normalizedY) {
+        Geometry.Ray ray = convertNormalized2DPointToRay(normalizedX, normalizedY);
+
+        Geometry.Sphere malletBoundingSphere = new Geometry.Sphere(
+                new Geometry.Point(blueMalletPosition.x,
+                        blueMalletPosition.y,
+                        blueMalletPosition.z),
+                mallet.height / 2f);
+
+        Log.i(TAG, "handleTouchPress: " + ray + "\n" + malletBoundingSphere);
+
+        malletPressed = Geometry.intersects(malletBoundingSphere, ray);
+        Log.i(TAG, "handleTouchPress: malletPressed: " + malletPressed);
+    }
+
+    public void handleTouchDrag(float normalizedX, float normalizedY) {
+        if (malletPressed) {
+            Geometry.Ray ray = convertNormalized2DPointToRay(normalizedX, normalizedY);
+
+            // 一个点和一个向量确定一个面
+            Geometry.Plane plane = new Geometry.Plane(new Geometry.Point(0, 0, 0), new Geometry.Vector(0, 1, 0));
+            Geometry.Point touchPoint = Geometry.intersectionPoint(ray, plane);
+            Log.i(TAG, "handleTouchDrag: " + touchPoint);
+            blueMalletPosition = new Geometry.Point(touchPoint.x, mallet.height / 2, touchPoint.z);
+        }
+    }
+
+    // 把触控的点映射到三维空间的一条直线
+    // 需要一个反转矩阵，取消视图矩阵和投影矩阵的效果的效果
+    private Geometry.Ray convertNormalized2DPointToRay(float normalizedX, float normalizedY) {
+        final float[] nearPointNdc = {normalizedX, normalizedY, -1, 1};
+        final float[] farPointNdc = {normalizedX, normalizedY, 1, 1};
+
+        // 世界空间中的坐标
+        final float[] nearPointWorld = new float[4];
+        final float[] farPointWorld = new float[4];
+
+        Matrix.multiplyMV(nearPointWorld, 0, invertedViewProjectionMatrix, 0, nearPointNdc, 0);
+        Matrix.multiplyMV(farPointWorld, 0, invertedViewProjectionMatrix, 0, farPointNdc, 0);
+
+        divideByW(nearPointWorld);
+        divideByW(farPointWorld);
+
+        Geometry.Point nearPointRay = new Geometry.Point(nearPointWorld[0], nearPointWorld[1], nearPointWorld[2]);
+        Geometry.Point farPointRay = new Geometry.Point(farPointWorld[0], farPointWorld[1], farPointWorld[2]);
+
+        return new Geometry.Ray(nearPointRay, Geometry.vectorBetween(nearPointRay, farPointRay));
+    }
+
+    private void divideByW(float[] vector) {
+        vector[0] /= vector[3];
+        vector[1] /= vector[3];
+        vector[2] /= vector[3];
+    }
 
 }
