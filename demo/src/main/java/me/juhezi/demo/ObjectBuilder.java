@@ -38,7 +38,7 @@ public class ObjectBuilder {
         vertexData[offset++] = circle.center.y;
         vertexData[offset++] = circle.center.z;
 
-        for (int i = 0; i < numPoints; i++) {
+        for (int i = 0; i <= numPoints; i++) {
             float angleInRadians =
                     ((float) i / (float) numPoints) * ((float) Math.PI * 2f);
             vertexData[offset++] = (float) (circle.center.x
@@ -56,7 +56,7 @@ public class ObjectBuilder {
         final float yStart = cylinder.center.y - (cylinder.height / 2f);
         final float yEnd = cylinder.center.y + (cylinder.height / 2f);
 
-        for (int i = 0; i < numPoints; i++) {
+        for (int i = 0; i <= numPoints; i++) {
             float angleInRadians =
                     ((float) i / (float) numPoints)
                             * ((float) Math.PI * 2f);

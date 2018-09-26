@@ -77,7 +77,9 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
         glViewport(0, 0, width, height);
+        // 创建一个投影矩阵
         Matrix.perspectiveM(projectionMatrix, 0, 45, (float) width / (float) height, 1f, 10f);
+        // 创建一个视图矩阵
         Matrix.setLookAtM(viewMatrix, 0,
                 0f, 1.2f, 2.2f,
                 0f, 0f, 0f,
