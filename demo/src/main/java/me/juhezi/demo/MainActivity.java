@@ -30,6 +30,7 @@ public class MainActivity extends BaseActivity {
     private Button mPickAudioButton;
     private Button mGLButton;
     private Button mGpuImageButton;
+    private Button mGLButton2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,10 @@ public class MainActivity extends BaseActivity {
         mGpuImageButton = findViewById(R.id.btn_demo_gpu_image);
         mGpuImageButton.setOnClickListener(v -> {
             startActivity(new Intent(this, ImageActivity.class));
+        });
+        mGLButton2 = findViewById(R.id.btn_demo_gl_2);
+        mGLButton2.setOnClickListener(v -> {
+            startActivity(new Intent(this, GL2Activity.class));
         });
     }
 

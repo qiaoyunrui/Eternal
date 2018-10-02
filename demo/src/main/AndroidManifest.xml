@@ -26,6 +26,9 @@
         <activity
             android:name=".ImageActivity"
             android:exported="true" />
+        <activity
+            android:name=".GL2Activity"
+            android:exported="true" />
     </application>
 
 </manifest>
