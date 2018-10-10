@@ -1,6 +1,6 @@
 package me.juhezi.demo.objects;
 
-import me.juhezi.demo.Contants;
+import me.juhezi.demo.Constants;
 import me.juhezi.demo.VertexArray;
 import me.juhezi.demo.programs.TextureShaderProgram;
 
@@ -11,7 +11,7 @@ public class Table {
 
     private static final int POSITION_COMPONENT_COUNT = 2;
     private static final int TEXTURE_COORDINATES_COMPONENT_COUNT = 2;
-    private static final int STRIDE = (POSITION_COMPONENT_COUNT + TEXTURE_COORDINATES_COMPONENT_COUNT) * Contants.BYTES_PER_FLOAT;
+    private static final int STRIDE = (POSITION_COMPONENT_COUNT + TEXTURE_COORDINATES_COMPONENT_COUNT) * Constants.BYTES_PER_FLOAT;
 
     // 包含了 桌子的顶点数据，定义了 x 和 y 的位置，以及 S 和 T 纹理坐标
     private static final float[] VERTEX_DATA = {

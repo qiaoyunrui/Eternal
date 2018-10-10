@@ -1,6 +1,6 @@
 package me.juhezi.demo;
 
-public class Contants {
+public class Constants {
 
     public static final int BYTES_PER_FLOAT = 4;
 

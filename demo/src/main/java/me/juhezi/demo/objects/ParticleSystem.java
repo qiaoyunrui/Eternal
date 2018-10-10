@@ -6,7 +6,7 @@ import android.opengl.GLES20;
 import me.juhezi.demo.VertexArray;
 import me.juhezi.demo.programs.ParticleShaderProgram;
 
-import static me.juhezi.demo.Contants.BYTES_PER_FLOAT;
+import static me.juhezi.demo.Constants.BYTES_PER_FLOAT;
 
 public class ParticleSystem {
 

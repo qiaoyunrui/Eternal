@@ -3,6 +3,7 @@ package me.juhezi.demo;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.ConfigurationInfo;
+import android.graphics.BitmapFactory;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 
 import org.jetbrains.annotations.Nullable;
 
+import me.juhezi.demo.renderer.DemoRenderer;
 import me.juhezi.eternal.base.BaseActivity;
 
 public class GL2Activity extends BaseActivity {
@@ -31,13 +33,14 @@ public class GL2Activity extends BaseActivity {
 
         Log.i(TAG, "onCreate: reqGlEsVersion: " + configurationInfo.reqGlEsVersion);
 
-//        final AirHockeyRenderer renderer = new AirHockeyRenderer(this);
+        final DemoRenderer renderer = new DemoRenderer(this);
+        renderer.setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.wait));
 
         final boolean supportsES2 = configurationInfo.reqGlEsVersion >= 0x20000;
         if (supportsES2) {
             mGLSurfaceView.setEGLContextClientVersion(2);
-
-//            mGLSurfaceView.setRenderer(renderer);
+            mGLSurfaceView.setRenderer(renderer);
+            mGLSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
             mRendererSet = true;
         } else {
             Toast.makeText(this, "不支持 OpenGL ES 2.0", Toast.LENGTH_SHORT).show();

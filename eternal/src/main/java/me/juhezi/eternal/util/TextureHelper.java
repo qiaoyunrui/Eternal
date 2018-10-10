@@ -63,4 +63,29 @@ public class TextureHelper {
         return textureObjectIds[0];
     }
 
+    public static int loadTexture(Bitmap bitmap) {
+        if (bitmap == null || bitmap.isRecycled()) return 0;
+        final int[] textureId = new int[1];
+        glGenTextures(1, textureId, 0);
+        if (textureId[0] == 0) {
+            if (FunctionsKt.isDebug()) {
+                Log.w(TAG, "loadTexture: Could not generate a new OpenGL texture object.");
+            }
+            return 0;
+        }
+        glBindTexture(GL_TEXTURE_2D, textureId[0]);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        // 放大的情况下，使用双线性过滤
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        // 加载位图数据到 OpenGL 中
+        // 告诉 OpenGL 读入 bitmap 定义的位图数据，并把它复制到"当前绑定"的纹理对象
+        GLUtils.texImage2D(GL_TEXTURE_2D, 0, bitmap, 0);
+        bitmap.recycle();
+        // 生成 MIP 贴图
+        glGenerateMipmap(GL_TEXTURE_2D);
+        // 与纹理解除绑定
+        glBindTexture(GL_TEXTURE_2D, 0);
+        return textureId[0];
+    }
+
 }
