@@ -41,8 +41,11 @@ public class ParticleSystem {
                             Geometry.Vector direction,
                             float particleStartTime) {
         final int particleOffset = nextParticle * TOTAL_COMPONENT_COUNT;
+
         int currentOffset = particleOffset;
         nextParticle++;
+
+        // 一个新粒子每次被添加进来时，就给 nextParticle 增加 1，当到了数组的结尾处，就从 0 开始以便回收最旧的粒子。
         if (currentParticleCount < maxParticleCount) {
             currentParticleCount++;
         }

@@ -1,0 +1,6 @@
+/Users/shixi_yunrui/Developer/projects/Eternal/demo/src/main/cpp/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/shixi_yunrui/Developer/projects/Eternal/demo/src/main/cpp/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/shixi_yunrui/Developer/projects/Eternal/demo/src/main/cpp/cmake-build-debug/CMakeFiles/wbgpuimage.dir
+/Users/shixi_yunrui/Developer/projects/Eternal/demo/src/main/cpp/cmake-build-debug/glm/CMakeFiles/rebuild_cache.dir
+/Users/shixi_yunrui/Developer/projects/Eternal/demo/src/main/cpp/cmake-build-debug/glm/CMakeFiles/edit_cache.dir
+/Users/shixi_yunrui/Developer/projects/Eternal/demo/src/main/cpp/cmake-build-debug/glm/CMakeFiles/glm.dir

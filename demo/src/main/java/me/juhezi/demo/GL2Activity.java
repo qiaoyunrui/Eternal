@@ -12,6 +12,7 @@ import android.widget.Toast;
 import org.jetbrains.annotations.Nullable;
 
 import me.juhezi.demo.renderer.DemoRenderer;
+import me.juhezi.demo.renderer.ParticlesRenderer;
 import me.juhezi.eternal.base.BaseActivity;
 
 public class GL2Activity extends BaseActivity {
@@ -39,8 +40,8 @@ public class GL2Activity extends BaseActivity {
         final boolean supportsES2 = configurationInfo.reqGlEsVersion >= 0x20000;
         if (supportsES2) {
             mGLSurfaceView.setEGLContextClientVersion(2);
-            mGLSurfaceView.setRenderer(renderer);
-            mGLSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+            mGLSurfaceView.setRenderer(new ParticlesRenderer(this));
+//            mGLSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
             mRendererSet = true;
         } else {
             Toast.makeText(this, "不支持 OpenGL ES 2.0", Toast.LENGTH_SHORT).show();

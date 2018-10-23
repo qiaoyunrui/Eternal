@@ -12,7 +12,12 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        externalNativeBuild {
+            cmake {
+                arguments '-DANDROID_STL=c++_static'
+                abiFilters 'armeabi-v7a'
+            }
+        }
     }
 
     buildTypes {
@@ -27,6 +32,11 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    externalNativeBuild {
+        cmake {
+            path 'src/main/cpp/CMakeLists.txt'
+        }
+    }
 }
 
 dependencies {

@@ -7,14 +7,20 @@ import android.opengl.GLSurfaceView;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import me.juhezi.demo.R;
 import me.juhezi.demo.objects.Geometry;
 import me.juhezi.demo.objects.ParticleShooter;
 import me.juhezi.demo.objects.ParticleSystem;
 import me.juhezi.demo.programs.ParticleShaderProgram;
+import me.juhezi.eternal.util.TextureHelper;
 
+import static android.opengl.GLES20.GL_BLEND;
 import static android.opengl.GLES20.GL_COLOR_BUFFER_BIT;
+import static android.opengl.GLES20.GL_ONE;
+import static android.opengl.GLES20.glBlendFunc;
 import static android.opengl.GLES20.glClear;
 import static android.opengl.GLES20.glClearColor;
+import static android.opengl.GLES20.glEnable;
 import static android.opengl.GLES20.glViewport;
 import static android.opengl.Matrix.multiplyMM;
 import static android.opengl.Matrix.perspectiveM;
@@ -28,6 +34,9 @@ public class ParticlesRenderer implements GLSurfaceView.Renderer {
     private final float[] viewMatrix = new float[16];
     private final float[] viewProjectionMatrix = new float[16];
 
+    private final float angleVarianceInDegrees = 5f;    // 发射角变化量
+    private final float speedVariance = 1f;
+
     private ParticleShaderProgram particleShaderProgram;
     private ParticleSystem particleSystem;
     private ParticleShooter redParticleShooter;
@@ -35,6 +44,8 @@ public class ParticlesRenderer implements GLSurfaceView.Renderer {
     private ParticleShooter blueParticleShooter;
 
     private long globalStartTime;
+
+    private int texture;
 
     public ParticlesRenderer(Context context) {
         this.context = context;
@@ -44,6 +55,8 @@ public class ParticlesRenderer implements GLSurfaceView.Renderer {
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        glEnable(GL_BLEND); // 使用混合模式
+        glBlendFunc(GL_ONE, GL_ONE);    // 设置混合模式为累加模式
 
         particleShaderProgram = new ParticleShaderProgram(context);
         particleSystem = new ParticleSystem(10000);
@@ -52,20 +65,29 @@ public class ParticlesRenderer implements GLSurfaceView.Renderer {
         final Geometry.Vector particleDirection =
                 new Geometry.Vector(0f, 0.5f, 0f);
 
+        // 创建 3 个粒子喷泉。每个喷泉由一个粒子发射器表示，每个发射器都将按照 particleDirection 定义的方向或者沿 y 垂直向上发射它的粒子。
         redParticleShooter = new ParticleShooter(
                 new Geometry.Point(-1f, 0f, 0f),
                 particleDirection,
-                Color.rgb(255, 50, 5));
+                Color.rgb(255, 50, 5),
+                angleVarianceInDegrees,
+                speedVariance);
 
         greenParticleShooter = new ParticleShooter(
                 new Geometry.Point(0f, 0f, 0f),
                 particleDirection,
-                Color.rgb(25, 255, 25));
+                Color.rgb(25, 255, 25),
+                angleVarianceInDegrees,
+                speedVariance);
 
-        redParticleShooter = new ParticleShooter(
+        blueParticleShooter = new ParticleShooter(
                 new Geometry.Point(1f, 0f, 0f),
                 particleDirection,
-                Color.rgb(5, 50, 255));
+                Color.rgb(5, 50, 255),
+                angleVarianceInDegrees,
+                speedVariance);
+
+        texture = TextureHelper.loadTexture(context, R.drawable.particle_texture);
     }
 
     @Override
@@ -86,14 +108,14 @@ public class ParticlesRenderer implements GLSurfaceView.Renderer {
     public void onDrawFrame(GL10 gl) {
         glClear(GL_COLOR_BUFFER_BIT);
 
-        float currentTime = System.currentTimeMillis();
+        float currentTime = (System.nanoTime() - globalStartTime) / 1000000000f;
 
         redParticleShooter.addParticles(particleSystem, currentTime, 5);
         greenParticleShooter.addParticles(particleSystem, currentTime, 5);
         blueParticleShooter.addParticles(particleSystem, currentTime, 5);
 
         particleShaderProgram.useProgram();
-        particleShaderProgram.setUniforms(viewProjectionMatrix, currentTime);
+        particleShaderProgram.setUniforms(viewProjectionMatrix, currentTime, texture);
         particleSystem.bindData(particleShaderProgram);
         particleSystem.draw();
 
