@@ -11,7 +11,9 @@ import me.juhezi.demo.R;
 import me.juhezi.demo.objects.Geometry;
 import me.juhezi.demo.objects.ParticleShooter;
 import me.juhezi.demo.objects.ParticleSystem;
+import me.juhezi.demo.objects.SkyBox;
 import me.juhezi.demo.programs.ParticleShaderProgram;
+import me.juhezi.demo.programs.SkyBoxShaderProgram;
 import me.juhezi.eternal.util.TextureHelper;
 
 import static android.opengl.GLES20.GL_BLEND;
@@ -20,10 +22,12 @@ import static android.opengl.GLES20.GL_ONE;
 import static android.opengl.GLES20.glBlendFunc;
 import static android.opengl.GLES20.glClear;
 import static android.opengl.GLES20.glClearColor;
+import static android.opengl.GLES20.glDisable;
 import static android.opengl.GLES20.glEnable;
 import static android.opengl.GLES20.glViewport;
 import static android.opengl.Matrix.multiplyMM;
 import static android.opengl.Matrix.perspectiveM;
+import static android.opengl.Matrix.rotateM;
 import static android.opengl.Matrix.setIdentityM;
 import static android.opengl.Matrix.translateM;
 
@@ -43,9 +47,15 @@ public class ParticlesRenderer implements GLSurfaceView.Renderer {
     private ParticleShooter greenParticleShooter;
     private ParticleShooter blueParticleShooter;
 
+    private SkyBoxShaderProgram skyBoxProgram;
+    private SkyBox skyBox;
+    private int skyBoxTexture;
+
+    private float xRotation, yRotation;
+
     private long globalStartTime;
 
-    private int texture;
+    private int particleTexture;
 
     public ParticlesRenderer(Context context) {
         this.context = context;
@@ -55,8 +65,18 @@ public class ParticlesRenderer implements GLSurfaceView.Renderer {
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-        glEnable(GL_BLEND); // 使用混合模式
-        glBlendFunc(GL_ONE, GL_ONE);    // 设置混合模式为累加模式
+
+        skyBoxProgram = new SkyBoxShaderProgram(context);
+        skyBox = new SkyBox();
+        skyBoxTexture = TextureHelper.INSTANCE.loadCubeMap(context,
+                new int[]{
+                        R.drawable.left,
+                        R.drawable.right,
+                        R.drawable.bottom,
+                        R.drawable.top,
+                        R.drawable.front,
+                        R.drawable.back,
+                });
 
         particleShaderProgram = new ParticleShaderProgram(context);
         particleSystem = new ParticleSystem(10000);
@@ -87,7 +107,7 @@ public class ParticlesRenderer implements GLSurfaceView.Renderer {
                 angleVarianceInDegrees,
                 speedVariance);
 
-        texture = TextureHelper.loadTexture(context, R.drawable.particle_texture);
+        particleTexture = TextureHelper.INSTANCE.loadTexture(context, R.drawable.particle_texture);
     }
 
     @Override
@@ -97,27 +117,72 @@ public class ParticlesRenderer implements GLSurfaceView.Renderer {
                 45,
                 (float) width / (float) height,
                 1f, 10f);
-        setIdentityM(viewMatrix, 0);
-        translateM(viewMatrix, 0, 0f, -1.5f, -5f);
-        multiplyMM(viewProjectionMatrix, 0,
-                projectionMatrix, 0,
-                viewMatrix, 0);
+        // 因为使用了天空盒，所以不想把平移矩阵应用到这个场景上，也不想把它应用到天空盒上
+        // 所以，需要为天空盒和粒子使用一个不同的矩阵
+//        setIdentityM(viewMatrix, 0);
+//        translateM(viewMatrix, 0, 0f, -1.5f, -5f);
+//        multiplyMM(viewProjectionMatrix, 0,
+//                projectionMatrix, 0,
+//                viewMatrix, 0);
     }
 
     @Override
     public void onDrawFrame(GL10 gl) {
         glClear(GL_COLOR_BUFFER_BIT);
 
+        drawSkyBox();
+
+        drawParticles();
+
+    }
+
+    private void drawSkyBox() {
+        setIdentityM(viewMatrix, 0);
+        rotateM(viewMatrix, 0, -yRotation, 1f, 0f, 0f);
+        rotateM(viewMatrix, 0, -xRotation, 0f, 1f, 0f);
+        multiplyMM(viewProjectionMatrix, 0, projectionMatrix, 0, viewMatrix, 0);
+        skyBoxProgram.useProgram();
+        skyBoxProgram.setUniforms(viewProjectionMatrix, skyBoxTexture);
+        skyBox.bindData(skyBoxProgram);
+        skyBox.draw();
+    }
+
+    private void drawParticles() {
         float currentTime = (System.nanoTime() - globalStartTime) / 1000000000f;
 
         redParticleShooter.addParticles(particleSystem, currentTime, 5);
         greenParticleShooter.addParticles(particleSystem, currentTime, 5);
         blueParticleShooter.addParticles(particleSystem, currentTime, 5);
 
+        setIdentityM(viewMatrix, 0);
+        rotateM(viewMatrix, 0, -yRotation, 1f, 0f, 0f);
+        rotateM(viewMatrix, 0, -xRotation, 0f, 1f, 0f);
+        translateM(viewMatrix, 0, 0f, -1.5f, -5f);
+        multiplyMM(viewProjectionMatrix, 0,
+                projectionMatrix, 0,
+                viewMatrix, 0);
+
+        glEnable(GL_BLEND); // 使用混合模式
+        glBlendFunc(GL_ONE, GL_ONE);    // 设置混合模式为累加模式
+
         particleShaderProgram.useProgram();
-        particleShaderProgram.setUniforms(viewProjectionMatrix, currentTime, texture);
+        particleShaderProgram.setUniforms(viewProjectionMatrix, currentTime, particleTexture);
         particleSystem.bindData(particleShaderProgram);
         particleSystem.draw();
 
+        glDisable(GL_BLEND);
     }
+
+    public void handleTouchDrag(float dx, float dy) {
+        xRotation += dx / 16f;
+        yRotation += dy / 16f;
+
+        if (yRotation < -90) {
+            yRotation = -90;
+        } else if (yRotation > 90) {
+            yRotation = 90;
+        }
+
+    }
+
 }

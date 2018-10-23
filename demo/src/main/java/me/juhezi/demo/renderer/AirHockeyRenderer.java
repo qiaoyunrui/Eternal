@@ -89,7 +89,7 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
         puckPosition = new Geometry.Point(0f, puck.height / 2f, 0f);
         puckVector = new Geometry.Vector(0f, 0f, 0f);
 
-        texture = TextureHelper.loadTexture(context, R.drawable.air_hockey_surface);
+        texture = TextureHelper.INSTANCE.loadTexture(context, R.drawable.air_hockey_surface);
     }
 
     /**

@@ -7,11 +7,11 @@ import me.juhezi.eternal.global.logw
 
 object ShaderHelper {
 
-    fun compileVertexShader(shaderCode: String): Int {
+    internal fun compileVertexShader(shaderCode: String): Int {
         return compileShader(GL_VERTEX_SHADER, shaderCode)
     }
 
-    fun compileFragmentShader(shaderCode: String): Int {
+    internal fun compileFragmentShader(shaderCode: String): Int {
         return compileShader(GL_FRAGMENT_SHADER, shaderCode)
     }
 
@@ -56,7 +56,7 @@ object ShaderHelper {
         return programObjectId
     }
 
-    fun validateProgram(programObjectId: Int): Boolean {
+    internal fun validateProgram(programObjectId: Int): Boolean {
         glValidateProgram(programObjectId)
         val validateStatus = IntArray(1)
         glGetProgramiv(programObjectId, GL_VALIDATE_STATUS, validateStatus, 0)
