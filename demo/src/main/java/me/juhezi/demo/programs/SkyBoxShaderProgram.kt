@@ -9,9 +9,9 @@ class SkyBoxShaderProgram(context: Context) :
         ShaderProgram(context, R.raw.sky_box_vertex_shader,
                 R.raw.sky_box_fragment_shader) {
 
-    val uMatrixLocation: Int
-    val uTextureUnitLocation: Int
-    val aPositionLocation: Int
+    private val uMatrixLocation: Int
+    private val uTextureUnitLocation: Int
+    private val aPositionLocation: Int
 
     init {
         uMatrixLocation = glGetUniformLocation(program, U_MATRIX)
