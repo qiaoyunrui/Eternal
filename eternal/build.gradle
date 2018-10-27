@@ -42,6 +42,7 @@ dependencies {
     api "com.android.support.constraint:constraint-layout:$rootProject.ext.constraintLayoutVersion"
 
     api project(':sdk')
+    api project(':orange')
 
 }
 repositories {

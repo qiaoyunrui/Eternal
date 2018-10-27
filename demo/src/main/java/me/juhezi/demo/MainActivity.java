@@ -22,7 +22,6 @@ import me.juhezi.eternal.base.BaseActivity;
 import me.juhezi.eternal.router.OriginalPicker;
 import me.juhezi.eternal.util.UriUtils;
 
-// mp3 -> pcm ->
 public class MainActivity extends BaseActivity {
 
     private static final String TAG = "DemoMainActivity";
@@ -52,6 +51,8 @@ public class MainActivity extends BaseActivity {
         mGLButton2 = findViewById(R.id.btn_demo_gl_2);
         mGLButton2.setOnClickListener(v -> {
             startActivity(new Intent(this, GL2Activity.class));
+
+//            Log.i(TAG, "onCreate: Done");
         });
     }
 

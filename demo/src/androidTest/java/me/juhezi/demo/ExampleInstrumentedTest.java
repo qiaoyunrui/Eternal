@@ -7,7 +7,11 @@ import android.support.test.runner.AndroidJUnit4;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.junit.Assert.*;
+import java.io.File;
+
+import me.juhezi.orange.LameBridge;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -16,6 +20,9 @@ import static org.junit.Assert.*;
  */
 @RunWith(AndroidJUnit4.class)
 public class ExampleInstrumentedTest {
+
+    private static final String TAG = "ExampleInstrumentedTest";
+
     @Test
     public void useAppContext() {
         // Context of the app under test.
@@ -23,4 +30,14 @@ public class ExampleInstrumentedTest {
 
         assertEquals("me.juhezi.demo", appContext.getPackageName());
     }
+
+    @Test
+    public void mp3EncodeTest() {
+//        mp3EncoderTwo.init(inFilePath, 1, 32, 44100, outFilePath);
+        LameBridge.init("/storage/emulated/0/input.pcm", 1, 32, 44100, "/storage/emulated/0/output.mp3");
+        LameBridge.encode();
+        LameBridge.destroy();
+        assertEquals(new File("/storage/emulated/0/output.mp3").exists(), true);
+    }
+
 }
