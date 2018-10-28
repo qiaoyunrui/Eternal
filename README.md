@@ -27,3 +27,19 @@ Updating
 - [ ] Draft Box
 - [ ] Export Articles
 - [ ] Import Articles
+
+## Recent
+
+最近所写的代码
+
+### eternal
+
+* AudioRecordService 2018.10.28
+
+### orange
+
+* LameBridge "encode pcm to mp3" 2018.10.27-28
+
+## Problems
+
+* LameBridge 编码后的 mp3 速度变快 【未解】
