@@ -5,6 +5,7 @@ add_definitions("-DGLM_FORCE_SIZE_T_LENGTH -DGLM_FORCE_RADIANS")
 
 # Import the CMakeLists.txt for the glm library
 add_subdirectory(glm)
+add_subdirectory(common)
 
 # now build app's shared lib
 add_library(wbgpuimage SHARED
@@ -26,4 +27,5 @@ target_link_libraries(
      glm
      GLESv2
      log
+     common
      )

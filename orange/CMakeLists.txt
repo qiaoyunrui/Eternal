@@ -9,6 +9,8 @@ include_directories(src/main/cpp/lame)
 # 查找在某个路径下的所有源文件
 aux_source_directory(src/main/cpp/lame SRC_LIST)
 
+add_subdirectory(src/main/cpp/common/)
+
 # 设置 so 文件输出路径，要放在 add_library 之前，不然不会起作用
 #set(CMAKE_LIBRARY_OUTPUT_DIRECTORY
 #        ${PROJECT_SOURCE_DIR}/src/main/jniLibs/${ANDROID_ABI})
@@ -26,4 +28,5 @@ find_library(
 
 target_link_libraries(
         orange
-        log)
+        log
+        common)
