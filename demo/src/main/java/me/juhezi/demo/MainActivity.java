@@ -14,12 +14,14 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
 import me.juhezi.eternal.base.BaseActivity;
 import me.juhezi.eternal.router.OriginalPicker;
+import me.juhezi.eternal.service.AudioRecordService;
 import me.juhezi.eternal.util.UriUtils;
 
 public class MainActivity extends BaseActivity {
@@ -37,7 +39,7 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         mPickAudioButton = findViewById(R.id.btn_demo_pick_audio);
         mPickAudioButton.setOnClickListener(v -> {
-            if (!checkPermission()) return;
+            if (!checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) return;
             Intent intent = OriginalPicker.getIntent(OriginalPicker.Type.AUDIO);
             startActivityForResult(intent, 0x123);
         });
@@ -50,9 +52,14 @@ public class MainActivity extends BaseActivity {
         });
         mGLButton2 = findViewById(R.id.btn_demo_gl_2);
         mGLButton2.setOnClickListener(v -> {
-            startActivity(new Intent(this, GL2Activity.class));
-
-//            Log.i(TAG, "onCreate: Done");
+//            startActivity(new Intent(this, GL2Activity.class));
+            if (!checkPermission(Manifest.permission.RECORD_AUDIO)) return;
+            AudioRecordService.Companion.getInstance().initMeta();
+            AudioRecordService.Companion.getInstance().start("/storage/emulated/0/input1.pcm");
+            mGLButton2.postDelayed(() -> {
+                AudioRecordService.Companion.getInstance().stop();
+                Toast.makeText(MainActivity.this, "Done", Toast.LENGTH_SHORT).show();
+            }, 10 * 1000);
         });
     }
 
@@ -71,13 +78,13 @@ public class MainActivity extends BaseActivity {
     }
 
     // TODO: 2018/8/2 扩展为一个公用组件
-    private boolean checkPermission() {
+    private boolean checkPermission(String permission) {
         if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.READ_EXTERNAL_STORAGE)
+                permission)
                 != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    new String[]{permission},
                     0x123);
             return false;
         }

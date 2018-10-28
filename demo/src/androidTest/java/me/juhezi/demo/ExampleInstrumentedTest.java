@@ -12,6 +12,7 @@ import java.io.File;
 import me.juhezi.orange.LameBridge;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -33,11 +34,12 @@ public class ExampleInstrumentedTest {
 
     @Test
     public void mp3EncodeTest() {
-//        mp3EncoderTwo.init(inFilePath, 1, 32, 44100, outFilePath);
-        LameBridge.init("/storage/emulated/0/input.pcm", 1, 32, 44100, "/storage/emulated/0/output.mp3");
+        File file = new File("/storage/emulated/0/output.mp3");
+        file.delete();
+        LameBridge.init("/storage/emulated/0/input1.pcm", 1, 16, 44100, "/storage/emulated/0/output.mp3");
         LameBridge.encode();
         LameBridge.destroy();
-        assertEquals(new File("/storage/emulated/0/output.mp3").exists(), true);
+        assertTrue(new File("/storage/emulated/0/output.mp3").exists());
     }
 
 }
