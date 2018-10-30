@@ -19,6 +19,9 @@ android {
                 cFlags "-DSTDC_HEADERS"
             }
         }
+        ndk {
+            abiFilters 'armeabi-v7a'
+        }
 
     }
 
