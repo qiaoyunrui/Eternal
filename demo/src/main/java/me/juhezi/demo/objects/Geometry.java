@@ -100,6 +100,10 @@ public class Geometry {
                     z * scale);
         }
 
+        public Vector normalize() {
+            return scale(1 / length());
+        }
+
         @Override
         public String toString() {
             return "Vector{" +

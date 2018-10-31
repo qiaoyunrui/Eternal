@@ -1,7 +1,9 @@
 package me.juhezi.eternal.widget.dialog
 
+import android.annotation.TargetApi
 import android.content.Context
 import android.graphics.Color
+import android.os.Build
 import android.support.annotation.ColorInt
 import android.support.annotation.DrawableRes
 import android.support.annotation.LayoutRes
@@ -53,6 +55,7 @@ class EternalOperationDialog(context: Context?, theme: Int = R.style.full_screen
         mContainer = findViewById(R.id.vg_operation_dialog_container)
     }
 
+    @TargetApi(Build.VERSION_CODES.N)
     fun apply() {
         mContainer.removeAllViews()
         val size = mOperationMap.size

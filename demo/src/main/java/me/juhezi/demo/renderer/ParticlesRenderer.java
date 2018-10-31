@@ -54,6 +54,8 @@ public class ParticlesRenderer implements GLSurfaceView.Renderer {
     private final float[] tempMatrix = new float[16];
     private final float[] modelViewProjectionMatrix = new float[16];
 
+    private final Geometry.Vector vectorToLight = new Geometry.Vector(0.61f, 0.64f, -0.47f).normalize();
+
     private final float angleVarianceInDegrees = 5f;    // 发射角变化量
     private final float speedVariance = 1f;
 
@@ -79,7 +81,6 @@ public class ParticlesRenderer implements GLSurfaceView.Renderer {
     public ParticlesRenderer(Context context) {
         this.context = context;
     }
-
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
@@ -203,7 +204,7 @@ public class ParticlesRenderer implements GLSurfaceView.Renderer {
         scaleM(modelMatrix, 0, 100f, 10f, 100f);
         updateMvpMatrix();
         heightMapShaderProgram.useProgram();
-        heightMapShaderProgram.setUniforms(modelViewProjectionMatrix);
+        heightMapShaderProgram.setUniforms(modelViewProjectionMatrix, vectorToLight);
         heightMap.bindData(heightMapShaderProgram);
         heightMap.draw();
     }
