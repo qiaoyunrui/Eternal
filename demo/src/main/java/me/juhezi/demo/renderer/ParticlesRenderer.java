@@ -35,12 +35,15 @@ import static android.opengl.GLES20.glDepthMask;
 import static android.opengl.GLES20.glDisable;
 import static android.opengl.GLES20.glEnable;
 import static android.opengl.GLES20.glViewport;
+import static android.opengl.Matrix.invertM;
 import static android.opengl.Matrix.multiplyMM;
+import static android.opengl.Matrix.multiplyMV;
 import static android.opengl.Matrix.perspectiveM;
 import static android.opengl.Matrix.rotateM;
 import static android.opengl.Matrix.scaleM;
 import static android.opengl.Matrix.setIdentityM;
 import static android.opengl.Matrix.translateM;
+import static android.opengl.Matrix.transposeM;
 
 public class ParticlesRenderer implements GLSurfaceView.Renderer {
 
@@ -54,7 +57,20 @@ public class ParticlesRenderer implements GLSurfaceView.Renderer {
     private final float[] tempMatrix = new float[16];
     private final float[] modelViewProjectionMatrix = new float[16];
 
-    private final Geometry.Vector vectorToLight = new Geometry.Vector(0.61f, 0.64f, -0.47f).normalize();
+    private final float[] modelViewMatrix = new float[16];
+    private final float[] itModelViewMatrix = new float[16];
+
+    private final float[] vectorToLight = {0.30f, 0.35f, -0.89f, 0f};
+    private final float[] pointLightPositions = new float[]{
+            -1f, 1f, 0f, 1f,
+            0f, 1f, 0f, 1f,
+            1f, 1f, 0f, 1f,
+    };
+    private final float[] pointLightColors = new float[]{
+            1.00f, 0.20f, 0.02f,
+            0.02f, 0.25f, 0.02f,
+            0.02f, 0.20f, 1.00f,
+    };
 
     private final float angleVarianceInDegrees = 5f;    // 发射角变化量
     private final float speedVariance = 1f;
@@ -204,7 +220,25 @@ public class ParticlesRenderer implements GLSurfaceView.Renderer {
         scaleM(modelMatrix, 0, 100f, 10f, 100f);
         updateMvpMatrix();
         heightMapShaderProgram.useProgram();
-        heightMapShaderProgram.setUniforms(modelViewProjectionMatrix, vectorToLight);
+        // put the light position into eye space
+        final float[] vectorToLightInEyeSpace = new float[4];
+        final float[] pointPositionsInEyeSpace = new float[12];
+        multiplyMV(vectorToLightInEyeSpace, 0, viewMatrix,
+                0, vectorToLight, 0);
+        multiplyMV(pointPositionsInEyeSpace, 0, viewMatrix,
+                0, pointLightPositions, 0);
+        multiplyMV(pointPositionsInEyeSpace, 4, viewMatrix,
+                0, pointLightPositions, 4);
+        multiplyMV(pointPositionsInEyeSpace, 8, viewMatrix,
+                0, pointLightPositions, 8);
+
+        heightMapShaderProgram.setUniforms(
+                modelMatrix,
+                itModelViewMatrix,
+                modelViewProjectionMatrix,
+                vectorToLightInEyeSpace,
+                pointPositionsInEyeSpace,
+                pointLightColors);
         heightMap.bindData(heightMapShaderProgram);
         heightMap.draw();
     }
@@ -231,8 +265,15 @@ public class ParticlesRenderer implements GLSurfaceView.Renderer {
     }
 
     public void updateMvpMatrix() {
-        multiplyMM(tempMatrix, 0, viewMatrix, 0, modelMatrix, 0);
-        multiplyMM(modelViewProjectionMatrix, 0, projectionMatrix, 0, tempMatrix, 0);
+        multiplyMM(modelViewMatrix, 0, viewMatrix, 0, modelMatrix, 0);
+        // 逆矩阵
+        invertM(tempMatrix, 0, modelViewMatrix, 0);
+        // 转置矩阵
+        transposeM(itModelViewMatrix, 0, tempMatrix, 0);
+        multiplyMM(
+                modelViewProjectionMatrix, 0,
+                projectionMatrix, 0,
+                modelViewMatrix, 0);
     }
 
     public void updateMvpMatrixForSkyBox() {
