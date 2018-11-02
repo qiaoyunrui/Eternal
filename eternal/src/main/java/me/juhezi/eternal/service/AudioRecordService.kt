@@ -11,7 +11,7 @@ class AudioRecordService {
 
     companion object {
         var SAMPLE_RATE_IN_HZ = 44100   // 采样率
-        private val CHANNEL_CONFIGURATION = AudioFormat.CHANNEL_IN_DEFAULT
+        private val CHANNEL_CONFIGURATION = AudioFormat.CHANNEL_IN_DEFAULT  // 单声道
         private val AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT;
         val instance = AudioRecordService()
     }

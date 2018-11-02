@@ -74,8 +74,9 @@ add_library(
         orange
         SHARED
         src/main/cpp/mp3_encoder.cpp
-        src/main/cpp/ffmpeg_test.c
+        src/main/cpp/ffmpeg_decoder/accompany_decoder.cpp
         src/main/jni/orange.cpp
+        src/main/cpp/common/CommonTools.h
         ${SRC_LIST})
 
 find_library(

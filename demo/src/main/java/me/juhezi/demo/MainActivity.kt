@@ -46,12 +46,13 @@ class MainActivity : BaseActivity() {
             startActivity(Intent(this, GL2Activity::class.java))
         }
         btn_record.setOnClickListener {
+            val path = "/storage/emulated/0/input1.pcm"
             if (!checkPermission(Manifest.permission.RECORD_AUDIO)) return@setOnClickListener
             AudioRecordService.instance.initMeta()
-            AudioRecordService.instance.start("/storage/emulated/0/input1.pcm")
+            AudioRecordService.instance.start(path)
             mGLButton2!!.postDelayed({
                 AudioRecordService.instance.stop()
-                Toast.makeText(this@MainActivity, "Done", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, "Done, path is $path", Toast.LENGTH_SHORT).show()
             }, (10 * 1000).toLong())
         }
     }
