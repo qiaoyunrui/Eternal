@@ -55,3 +55,36 @@ typedef struct AudioPacket {
 } AudioPacket;
 
 #include "common/CommonTools.h"
+
+extern "C" {
+#include "libavcodec/avcodec.h"
+#include "libavformat/avformat.h"
+#include "libavutil/avutil.h"
+#include "libavutil/samplefmt.h"
+#include "libavutil/common.h"
+#include "libavutil/channel_layout.h"
+#include "libavutil/opt.h"
+#include "libavutil/imgutils.h"
+#include "libavutil/mathematics.h"
+#include "libswscale/swscale.h"
+#include "libswresample/swresample.h"
+};
+
+#define OUT_PUT_CHANNELS 2
+
+class AccompanyDecoder {
+private:
+    // 如果使用了快进或者快退命令，则先设置一下参数
+    bool seek_req;
+    bool seek_resp;
+    float seek_seconds;
+
+    float actualSeekPosition;
+
+    AVFormatContext *avFormatContext;
+    AVCodecContext *avCodecContext;
+    int stream_index;
+    float timeBase;
+    AVFrame *pAudioFrame;
+    AVPacket packet;
+};
