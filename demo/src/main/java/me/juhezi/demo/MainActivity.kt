@@ -16,6 +16,8 @@ import android.widget.Button
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import me.juhezi.eternal.base.BaseActivity
+import me.juhezi.eternal.extension.i
+import me.juhezi.eternal.media.getMediaFormat
 import me.juhezi.eternal.router.OriginalPicker
 import me.juhezi.eternal.service.AudioRecordService
 import me.juhezi.eternal.util.UriUtils
@@ -54,6 +56,10 @@ class MainActivity : BaseActivity() {
                 AudioRecordService.instance.stop()
                 Toast.makeText(this@MainActivity, "Done, path is $path", Toast.LENGTH_SHORT).show()
             }, (10 * 1000).toLong())
+        }
+        btn_test.setOnClickListener {
+            getMediaFormat("/storage/emulated/0/demo1.mp4")
+                    .forEach { i(it) }
         }
     }
 

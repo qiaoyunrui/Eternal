@@ -12,6 +12,7 @@ import me.juhezi.eternal.base.BaseApplication
 import me.juhezi.eternal.builder.buildUIHandler
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * Created by Juhezi[juhezix@163.com] on 2018/7/26.
@@ -105,3 +106,14 @@ fun formatTime(time: Long, format: String = "yyyy年 MM月dd日 HH:mm"): String 
     val dateFormat = SimpleDateFormat(format)
     return dateFormat.format(time)
 }
+
+fun <T> buildList(closure: MutableList<T>.() -> Unit,
+                  constructor: () -> MutableList<T> = { ArrayList<T>() }) =
+        constructor().apply(closure)
+
+fun range(start: Int = 0, end: Int): List<Int> = buildList({
+    // 不包含结尾元素
+    for (i in start until end) {
+        add(i)
+    }
+})
