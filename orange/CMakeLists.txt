@@ -77,7 +77,10 @@ add_library(
         src/main/cpp/ffmpeg_decoder/accompany_decoder.cpp
         src/main/cpp/ffmpeg_decoder/accompany_decoder_controller.cpp
         src/main/jni/orange.cpp
+        src/main/jni/GpuImageJNI.cpp
         src/main/cpp/common/CommonTools.h
+        src/main/cpp/util/OpenGLUtil.cpp
+        src/main/cpp/gl/GPUImage.cpp
         ${SRC_LIST})
 
 find_library(
