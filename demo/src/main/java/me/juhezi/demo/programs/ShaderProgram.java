@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.annotation.RawRes;
 
 import me.juhezi.eternal.extension.ContextExtensionKt;
-import me.juhezi.eternal.util.ShaderHelper;
+import me.juhezi.eternal.gpuimage.helper.ShaderHelper;
 
 import static android.opengl.GLES20.glUseProgram;
 

@@ -11,7 +11,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 import me.juhezi.demo.R;
 import me.juhezi.demo.none.GPUImageFilter;
-import me.juhezi.eternal.util.TextureHelper;
+import me.juhezi.eternal.gpuimage.helper.TextureHelper;
 
 public class DemoRenderer implements GLSurfaceView.Renderer {
 

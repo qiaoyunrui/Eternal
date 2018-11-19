@@ -15,7 +15,7 @@ import me.juhezi.demo.objects.Puck;
 import me.juhezi.demo.objects.Table;
 import me.juhezi.demo.programs.ColorShaderProgram;
 import me.juhezi.demo.programs.TextureShaderProgram;
-import me.juhezi.eternal.util.TextureHelper;
+import me.juhezi.eternal.gpuimage.helper.TextureHelper;
 
 import static android.opengl.GLES20.GL_COLOR_BUFFER_BIT;
 import static android.opengl.GLES20.glClear;

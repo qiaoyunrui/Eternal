@@ -1,4 +1,4 @@
-package me.juhezi.eternal.util
+package me.juhezi.eternal.gpuimage.helper
 
 import android.opengl.GLES20.*
 import me.juhezi.eternal.extension.value
@@ -73,6 +73,8 @@ object ShaderHelper {
         if (isDebug()) {
             validateProgram(program)
         }
+        glDeleteShader(vertexShader)
+        glDeleteShader(fragmentShader)
         return program
     }
 

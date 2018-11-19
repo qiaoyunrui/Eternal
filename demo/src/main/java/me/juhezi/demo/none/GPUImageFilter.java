@@ -7,7 +7,7 @@ import android.support.annotation.RawRes;
 import me.juhezi.demo.Constants;
 import me.juhezi.demo.VertexArray;
 import me.juhezi.eternal.extension.ContextExtensionKt;
-import me.juhezi.eternal.util.ShaderHelper;
+import me.juhezi.eternal.gpuimage.helper.ShaderHelper;
 
 import static android.opengl.GLES20.GL_TEXTURE_2D;
 import static android.opengl.GLES20.GL_TRIANGLE_STRIP;

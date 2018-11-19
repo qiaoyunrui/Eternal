@@ -17,7 +17,7 @@ import me.juhezi.demo.objects.SkyBox;
 import me.juhezi.demo.programs.HeightMapShaderProgram;
 import me.juhezi.demo.programs.ParticleShaderProgram;
 import me.juhezi.demo.programs.SkyBoxShaderProgram;
-import me.juhezi.eternal.util.TextureHelper;
+import me.juhezi.eternal.gpuimage.helper.TextureHelper;
 
 import static android.opengl.GLES20.GL_BLEND;
 import static android.opengl.GLES20.GL_COLOR_BUFFER_BIT;
