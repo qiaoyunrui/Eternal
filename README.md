@@ -43,3 +43,21 @@ Updating
 ## Problems
 
 * LameBridge 编码后的 mp3 速度变快 【未解】
+
+## modules
+
+* main - 主模块，集成入口，完成度 0%
+
+* demo - demo
+
+* eternal - 基础库、各种公用的类和函数
+
+* generator - python 自动生成代码模块 (暂时满足当前需求)
+
+* notepad - 笔记本模块
+
+* orange - native 模块
+
+* plugin && sdk - 动态加载模块
+
+* time - 倒计时模块
