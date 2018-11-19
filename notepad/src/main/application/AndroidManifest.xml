@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/BaseAppTheme"
-        tools:replace="android:theme">
+        tools:replace="android:theme"
+        tools:ignore="GoogleAppIndexingWarning">
 
         <activity android:name=".NotepadMainActivity">
             <intent-filter>
