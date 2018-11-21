@@ -53,7 +53,7 @@ object TextureHelper {
         return textureObjectIds[0]
     }
 
-    fun loadTexture(bitmap: Bitmap?): Int {
+    fun loadTexture(bitmap: Bitmap?, recycle: Boolean = true): Int {
         if (bitmap == null || bitmap.isRecycled) return 0
         val textureId = IntArray(1)
         glGenTextures(1, textureId, 0)
@@ -70,7 +70,9 @@ object TextureHelper {
         // 加载位图数据到 OpenGL 中
         // 告诉 OpenGL 读入 bitmap 定义的位图数据，并把它复制到"当前绑定"的纹理对象
         texImage2D(GL_TEXTURE_2D, 0, bitmap, 0)
-        bitmap.recycle()
+        if (recycle) {
+            bitmap.recycle()
+        }
         // 生成 MIP 贴图
         glGenerateMipmap(GL_TEXTURE_2D)
         // 与纹理解除绑定
