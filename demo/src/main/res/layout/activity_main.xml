@@ -56,5 +56,13 @@
         android:text="测试"
         android:textColor="@android:color/white" />
 
+    <Button
+        android:id="@+id/btn_eternal_gpu_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/holo_green_dark"
+        android:text="EternalGPUImage"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
 
 </LinearLayout>

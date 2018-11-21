@@ -11,9 +11,9 @@
 
 class GPUImage {
 private:
-    GLfloat vertices[];
-    const std::string vertexShaderString;
-    const std::string fragmentShaderString;
+//    GLfloat vertices[];
+//    const std::string vertexShaderString;
+//    const std::string fragmentShaderString;
 public:
     GPUImage();
 

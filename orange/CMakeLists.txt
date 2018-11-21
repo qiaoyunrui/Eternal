@@ -97,4 +97,6 @@ target_link_libraries(
         swscale
         avdevice
         avformat
-        postproc)
+        postproc
+        EGL
+        GLESv2)

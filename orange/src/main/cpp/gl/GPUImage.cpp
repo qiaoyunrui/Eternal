@@ -4,15 +4,15 @@
 
 #include "GPUImage.hpp"
 
-GLfloat GPUImage::vertices[] = {
-        -0.5f, -0.5f, 0.0f,
-        0.5f, -0.5f, 0.0f,
-        0.0f, 0.5f, 0.0f
-};
+//GLfloat GPUImage::vertices[] = {
+//        -0.5f, -0.5f, 0.0f,
+//        0.5f, -0.5f, 0.0f,
+//        0.0f, 0.5f, 0.0f
+//};
 
-const std::string GPUImage::vertexShaderString("");
+//const std::string GPUImage::vertexShaderString("");
 
-const std::string GPUImage::fragmentShaderString("");
+//const std::string GPUImage::fragmentShaderString("");
 
 GPUImage::GPUImage() {
 

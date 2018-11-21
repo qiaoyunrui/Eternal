@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.ConfigurationInfo;
-import android.graphics.BitmapFactory;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,7 +13,6 @@ import android.widget.Toast;
 
 import org.jetbrains.annotations.Nullable;
 
-import me.juhezi.demo.renderer.DemoRenderer;
 import me.juhezi.demo.renderer.ParticlesRenderer;
 import me.juhezi.eternal.base.BaseActivity;
 

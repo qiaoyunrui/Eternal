@@ -31,6 +31,9 @@
         <activity
             android:name=".GL2Activity"
             android:exported="true" />
+        <activity
+            android:name=".EternalGPUImageActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

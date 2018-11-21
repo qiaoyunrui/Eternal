@@ -37,7 +37,7 @@ public class DemoRenderer implements GLSurfaceView.Renderer {
         imageFilter = new GPUImageFilter(context,
                 R.raw.default_vertex_shader,
                 R.raw.default_fragment_shader);
-        textureId = TextureHelper.INSTANCE.loadTexture(mBitmap);
+        textureId = TextureHelper.INSTANCE.loadTexture(mBitmap, true);
     }
 
     @Override

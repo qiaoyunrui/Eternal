@@ -61,6 +61,9 @@ class MainActivity : BaseActivity() {
             getMediaFormat("/storage/emulated/0/demo1.mp4")
                     .forEach { i(it) }
         }
+        btn_eternal_gpu_image.setOnClickListener {
+            turnTo(EternalGPUImageActivity::class.java)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {

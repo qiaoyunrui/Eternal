@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -26,12 +25,9 @@ public class ImageActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
         setToolBarVisibility(false);
-        findViewById(R.id.btn_demo_pick_image).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = OriginalPicker.getIntent(OriginalPicker.Type.IMAGE);
-                startActivityForResult(intent, 0x123);
-            }
+        findViewById(R.id.btn_demo_pick_image).setOnClickListener(v -> {
+            Intent intent = OriginalPicker.getIntent(OriginalPicker.Type.IMAGE);
+            startActivityForResult(intent, 0x123);
         });
     }
 

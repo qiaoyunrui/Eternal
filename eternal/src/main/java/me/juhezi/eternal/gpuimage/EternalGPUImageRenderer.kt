@@ -6,7 +6,6 @@ import android.opengl.GLES20
 import android.opengl.GLES20.*
 import android.opengl.GLSurfaceView
 import me.juhezi.eternal.gpuimage.helper.TextureHelper
-import me.juhezi.eternal.gpuimage.helper.TextureRotationHelper
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.FloatBuffer
@@ -18,12 +17,19 @@ class EternalGPUImageRenderer(val filter: EternalGPUImageFilter)
     : GLSurfaceView.Renderer {
 
     companion object {
-        val CUBE =
-                floatArrayOf(
-                        -1.0f, -1.0f,
-                        1.0f, -1.0f,
-                        -1.0f, 1.0f,
-                        1.0f, 1.0f)
+        // 默认顶点坐标
+        val CUBE = floatArrayOf(
+                -1.0f, -1.0f,
+                1.0f, -1.0f,
+                -1.0f, 1.0f,
+                1.0f, 1.0f)
+
+        // 默认纹理坐标
+        val ST = floatArrayOf(
+                0.0f, 1.0f,
+                1.0f, 1.0f,
+                0.0f, 0.0f,
+                1.0f, 0.0f)
     }
 
     private val cubeBuffer: FloatBuffer
@@ -39,15 +45,17 @@ class EternalGPUImageRenderer(val filter: EternalGPUImageFilter)
 
     init {
         runOnDrawQueue = LinkedList()
-        cubeBuffer = ByteBuffer.allocate(CUBE.size * 4)
+        cubeBuffer = ByteBuffer.allocateDirect(
+                CUBE.size * BYTES_PER_FLOAT)
                 .order(ByteOrder.nativeOrder())
                 .asFloatBuffer()
         cubeBuffer.put(CUBE).position(0)
 
-        textureBuffer = ByteBuffer.allocate(
-                TextureRotationHelper.TEXTURE_NO_ROTATION.size * 4)
+        textureBuffer = ByteBuffer.allocateDirect(
+                ST.size * BYTES_PER_FLOAT)
                 .order(ByteOrder.nativeOrder())
                 .asFloatBuffer()
+        textureBuffer.put(ST).position(0)
     }
 
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {

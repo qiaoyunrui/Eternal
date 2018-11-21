@@ -1,5 +1,7 @@
 package me.juhezi.eternal.base
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.LayoutRes
 import android.support.v7.app.AppCompatActivity
@@ -129,6 +131,10 @@ open class BaseActivity : AppCompatActivity() {
 
     protected fun show(status: String) {
         mBaseViewController.show(status)
+    }
+
+    protected fun turnTo(clazz: Class<out Activity>) {
+        startActivity(Intent(this, clazz))
     }
 
 }
