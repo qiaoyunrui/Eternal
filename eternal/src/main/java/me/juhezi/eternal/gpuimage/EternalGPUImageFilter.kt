@@ -2,6 +2,8 @@ package me.juhezi.eternal.gpuimage
 
 import android.opengl.GLES20
 import android.opengl.GLES20.*
+import android.text.TextUtils
+import me.juhezi.eternal.extension.i
 import me.juhezi.eternal.gpuimage.helper.ShaderHelper
 import java.nio.FloatBuffer
 
@@ -42,14 +44,20 @@ open class EternalGPUImageFilter(protected var vertexShader: String = NO_FILTER_
         onInitialized()
     }
 
-    fun destory() {
+    fun destroy() {
         isInitialized = false
         glDeleteProgram(program)
         onDestroy()
     }
 
     open fun onInit() {
-        program = ShaderHelper.buildProgram(vertexShader, fragmentShader)
+        i("vertexShader: $vertexShader\nfragmentShader: $fragmentShader")
+        program =
+                if (TextUtils.isEmpty(vertexShader)) {
+                    ShaderHelper.buildProgram(fragmentShader)
+                } else {
+                    ShaderHelper.buildProgram(vertexShader, fragmentShader)
+                }
         aPositionLocation = GLES20.glGetAttribLocation(program,
                 "position")
         aInputTextureCoordinateLOcation = GLES20.glGetAttribLocation(program,
@@ -89,7 +97,7 @@ open class EternalGPUImageFilter(protected var vertexShader: String = NO_FILTER_
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4)
         glDisableVertexAttribArray(aPositionLocation)
         glDisableVertexAttribArray(aInputTextureCoordinateLOcation)
-        glBindTexture(GL_TEXTURE_2D,0)
+        glBindTexture(GL_TEXTURE_2D, 0)
     }
 
 }

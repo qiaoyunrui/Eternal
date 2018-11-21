@@ -13,7 +13,7 @@ import java.util.*
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
-class EternalGPUImageRenderer(val filter: EternalGPUImageFilter)
+class EternalGPUImageRenderer(var currentFilter: EternalGPUImageFilter)
     : GLSurfaceView.Renderer {
 
     companion object {
@@ -67,14 +67,14 @@ class EternalGPUImageRenderer(val filter: EternalGPUImageFilter)
     override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
         glClearColor(0f, 0f, 0f, 1f)
         glDisable(GL_DEPTH_TEST)
-        filter.init()
+        currentFilter.init()
     }
 
     override fun onDrawFrame(gl: GL10?) {
         glClear(GLES20.GL_COLOR_BUFFER_BIT or
                 GLES20.GL_DEPTH_BUFFER_BIT)
         runAll(runOnDrawQueue)
-        filter.onDraw(textureId, cubeBuffer, textureBuffer)
+        currentFilter.onDraw(textureId, cubeBuffer, textureBuffer)
     }
 
     fun setImageBitmap(bitmap: Bitmap, recycle: Boolean = true) {
@@ -117,6 +117,16 @@ class EternalGPUImageRenderer(val filter: EternalGPUImageFilter)
         runOnDraw(Runnable {
             GLES20.glDeleteTextures(1, intArrayOf(textureId), 0)
             textureId = NO_TEXTURE
+        })
+    }
+
+    fun setFilter(filter: EternalGPUImageFilter) {
+        runOnDraw(Runnable {
+            val oldFilter = this.currentFilter
+            currentFilter = filter
+            oldFilter.destroy()
+            currentFilter.init()
+//            GLES20.glUseProgram(.getProgram())
         })
     }
 

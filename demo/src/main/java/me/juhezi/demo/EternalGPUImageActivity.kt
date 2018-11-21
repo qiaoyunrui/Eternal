@@ -8,6 +8,8 @@ import kotlinx.android.synthetic.main.activity_eternal_gpu_image.*
 import me.juhezi.eternal.base.BaseActivity
 import me.juhezi.eternal.global.logi
 import me.juhezi.eternal.gpuimage.EternalGPUImage
+import me.juhezi.eternal.gpuimage.EternalGPUImageFilter
+import me.juhezi.eternal.gpuimage.filter.FragmentShaderFilter
 import me.juhezi.eternal.router.OriginalPicker
 import me.juhezi.eternal.util.UriUtils
 
@@ -23,6 +25,9 @@ class EternalGPUImageActivity : BaseActivity() {
             val intent = OriginalPicker.getIntent(OriginalPicker.Type.IMAGE)
             startActivityForResult(intent, 0x123)
         }
+        gpuImage = EternalGPUImage(this)
+        gpuImage!!.glSurfaceView = glsv_demo_show
+        gpuImage!!.setFilter(FragmentShaderFilter())
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
@@ -39,10 +44,7 @@ class EternalGPUImageActivity : BaseActivity() {
     }
 
     private fun doGpuImage(path: String) {
-        if (gpuImage == null) {
-            gpuImage = EternalGPUImage(this)
-            gpuImage!!.glSurfaceView = glsv_demo_show
-        }
+        gpuImage!!.setFilter(EternalGPUImageFilter())
         gpuImage!!.setImage(BitmapFactory.decodeFile(path))
     }
 

@@ -40,4 +40,11 @@ class EternalGPUImage(val context: Context) {
         return this
     }
 
+    fun setFilter(filter: EternalGPUImageFilter): EternalGPUImage {
+        this.filter = filter
+        renderer.setFilter(this.filter)
+        requestRender()
+        return this
+    }
+
 }
