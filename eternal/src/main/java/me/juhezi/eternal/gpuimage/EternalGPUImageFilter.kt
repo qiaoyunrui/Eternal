@@ -2,8 +2,6 @@ package me.juhezi.eternal.gpuimage
 
 import android.opengl.GLES20
 import android.opengl.GLES20.*
-import android.text.TextUtils
-import me.juhezi.eternal.extension.i
 import me.juhezi.eternal.gpuimage.helper.ShaderHelper
 import java.nio.FloatBuffer
 
@@ -32,11 +30,16 @@ open class EternalGPUImageFilter(protected var vertexShader: String = NO_FILTER_
 
     protected var program = 0
     protected var aPositionLocation = 0
-    protected var aInputTextureCoordinateLOcation = 0
+    protected var aInputTextureCoordinateLocation = 0
 
     protected var uInputImageTextureLocation = 0
 
+    protected var width: Int = 0
+    protected var height: Int = 0
+
     private var isInitialized = false
+
+    var gpuImage: EternalGPUImage? = null
 
     fun init() {
         onInit()
@@ -51,16 +54,10 @@ open class EternalGPUImageFilter(protected var vertexShader: String = NO_FILTER_
     }
 
     open fun onInit() {
-        i("vertexShader: $vertexShader\nfragmentShader: $fragmentShader")
-        program =
-                if (TextUtils.isEmpty(vertexShader)) {
-                    ShaderHelper.buildProgram(fragmentShader)
-                } else {
-                    ShaderHelper.buildProgram(vertexShader, fragmentShader)
-                }
+        program = ShaderHelper.buildProgram(vertexShader, fragmentShader)
         aPositionLocation = GLES20.glGetAttribLocation(program,
                 "position")
-        aInputTextureCoordinateLOcation = GLES20.glGetAttribLocation(program,
+        aInputTextureCoordinateLocation = GLES20.glGetAttribLocation(program,
                 "inputTextureCoordinate")
 
         uInputImageTextureLocation = GLES20.glGetUniformLocation(program,
@@ -84,10 +81,10 @@ open class EternalGPUImageFilter(protected var vertexShader: String = NO_FILTER_
         glEnableVertexAttribArray(aPositionLocation)
 
         textureBuffer.position(0)
-        glVertexAttribPointer(aInputTextureCoordinateLOcation, 2,
+        glVertexAttribPointer(aInputTextureCoordinateLocation, 2,
                 GL_FLOAT, false,
                 0, textureBuffer)
-        glEnableVertexAttribArray(aInputTextureCoordinateLOcation)
+        glEnableVertexAttribArray(aInputTextureCoordinateLocation)
 
         if (textureId != NO_TEXTURE) {
             glActiveTexture(GL_TEXTURE0)
@@ -96,8 +93,20 @@ open class EternalGPUImageFilter(protected var vertexShader: String = NO_FILTER_
         }
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4)
         glDisableVertexAttribArray(aPositionLocation)
-        glDisableVertexAttribArray(aInputTextureCoordinateLOcation)
+        glDisableVertexAttribArray(aInputTextureCoordinateLocation)
         glBindTexture(GL_TEXTURE_2D, 0)
+    }
+
+    open fun setOutputSize(size: Pair<Int, Int>) {
+        width = size.first
+        height = size.second
+    }
+
+    fun resetFragmentShader(fragmentShader: String) {
+        this.fragmentShader = fragmentShader
+        // 重新初始化
+        init()
+        gpuImage?.requestRender()
     }
 
 }

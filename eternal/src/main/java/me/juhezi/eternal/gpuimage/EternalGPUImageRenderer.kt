@@ -37,6 +37,8 @@ class EternalGPUImageRenderer(var currentFilter: EternalGPUImageFilter)
     private var textureId: Int = NO_TEXTURE
     private val runOnDrawQueue: Queue<Runnable>
 
+    var drawClosure: (() -> Unit)? = null
+
     private var outputWidth: Int = 0
     private var outputHeight: Int = 0
     private var imageWidth: Int = 0
@@ -62,6 +64,7 @@ class EternalGPUImageRenderer(var currentFilter: EternalGPUImageFilter)
         outputWidth = width
         outputHeight = height
         glViewport(0, 0, width, height)
+        currentFilter.setOutputSize(outputWidth to outputHeight)
     }
 
     override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
@@ -74,6 +77,7 @@ class EternalGPUImageRenderer(var currentFilter: EternalGPUImageFilter)
         glClear(GLES20.GL_COLOR_BUFFER_BIT or
                 GLES20.GL_DEPTH_BUFFER_BIT)
         runAll(runOnDrawQueue)
+        drawClosure?.invoke()
         currentFilter.onDraw(textureId, cubeBuffer, textureBuffer)
     }
 
@@ -98,7 +102,7 @@ class EternalGPUImageRenderer(var currentFilter: EternalGPUImageFilter)
         })
     }
 
-    private fun runOnDraw(runnable: Runnable) {
+    fun runOnDraw(runnable: Runnable) {
         synchronized(runOnDrawQueue) {
             runOnDrawQueue.add(runnable)
         }
@@ -126,7 +130,7 @@ class EternalGPUImageRenderer(var currentFilter: EternalGPUImageFilter)
             currentFilter = filter
             oldFilter.destroy()
             currentFilter.init()
-//            GLES20.glUseProgram(.getProgram())
+            currentFilter.setOutputSize(outputWidth to outputHeight)
         })
     }
 

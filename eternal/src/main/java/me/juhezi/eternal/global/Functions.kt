@@ -117,3 +117,10 @@ fun range(start: Int = 0, end: Int): List<Int> = buildList({
         add(i)
     }
 })
+
+inline fun <reified T> Pair<T, T>.toArray() = arrayOf(first, second)
+
+fun Pair<Float, Float>.toFloatArray() = floatArrayOf(first, second)
+
+fun Pair<Int, Int>.toFloatArrayx() = floatArrayOf(first.toFloat(), second.toFloat())
+

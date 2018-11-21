@@ -56,26 +56,6 @@ object ShaderHelper {
         return programObjectId
     }
 
-    // only link fragment shader
-    fun linkProgram(fragmentShaderId: Int): Int {
-        val programObjectId = glCreateProgram()
-        if (programObjectId == 0) {
-            logw("Could not create new program")
-            return 0
-        }
-        glAttachShader(programObjectId, fragmentShaderId)
-        glLinkProgram(programObjectId)
-        val linkStatus = IntArray(1)
-        glGetProgramiv(programObjectId, GL_LINK_STATUS, linkStatus, 0)
-        logw("Results of linking program:\n${glGetProgramInfoLog(programObjectId)}")
-        if (linkStatus.value() == 0) {
-            glDeleteProgram(programObjectId)
-            logw("Linking of program failed")
-            return 0
-        }
-        return programObjectId
-    }
-
     internal fun validateProgram(programObjectId: Int): Boolean {
         glValidateProgram(programObjectId)
         val validateStatus = IntArray(1)
@@ -94,16 +74,6 @@ object ShaderHelper {
             validateProgram(program)
         }
         glDeleteShader(vertexShader)
-        glDeleteShader(fragmentShader)
-        return program
-    }
-
-    fun buildProgram(fragmentShaderSource: String): Int {
-        val fragmentShader = compileFragmentShader(fragmentShaderSource)
-        val program = linkProgram(fragmentShader)
-        if (isDebug()) {
-            validateProgram(program)
-        }
         glDeleteShader(fragmentShader)
         return program
     }
