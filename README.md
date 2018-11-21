@@ -39,9 +39,9 @@ Updating
 * EternalGPUImage (from GPUImage)
   
   - [x] Image Show (2018.11.19 - 2018.11.21)
-  - [ ] Fragment Shader Filter
+  - [x] Fragment Shader Filter
   - [ ] Scale & Rotate
-  - [ ] Filter
+  - [ ] Filters
 
 ### orange
 
