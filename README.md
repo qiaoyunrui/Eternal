@@ -36,6 +36,12 @@ Updating
 
 * AudioRecordService 2018.10.28
 
+* EternalGPUImage (from GPUImage)
+  
+  - [x] Image Show (2018.11.19 - 2018.11.21)
+  - [ ] scale & rotate
+  - [ ] filter
+
 ### orange
 
 * LameBridge "encode pcm to mp3" 2018.10.27-28
