@@ -51,10 +51,10 @@ uniform float u_time;
         attributes.forEach {
             append("$it\n")
         }
-        append("$main\n")
         functions.forEach {
             append("$it\n")
         }
+        append("$main\n")
     }
 
     // 具体的函数
