@@ -23,4 +23,3 @@ JNIEXPORT void JNICALL
 Java_me_juhezi_orange_GPUImage_onDrawFrame(JNIEnv *env, jclass type) {
     glClear(GL_COLOR_BUFFER_BIT);
 }
-

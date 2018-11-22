@@ -40,6 +40,8 @@ dependencies {
     api "com.scwang.smartrefresh:SmartRefreshHeader:$rootProject.ext.smartRefreshVersion"
     api "com.airbnb.android:lottie:$rootProject.ext.lottieVersion"
     api "com.android.support.constraint:constraint-layout:$rootProject.ext.constraintLayoutVersion"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.ext.kotlinxCoroutinesVersion"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.ext.kotlinxCoroutinesVersion"
 
     api project(':sdk')
     api project(':orange')

@@ -15,12 +15,17 @@ import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import me.juhezi.eternal.base.BaseActivity
 import me.juhezi.eternal.extension.i
 import me.juhezi.eternal.media.getMediaFormat
 import me.juhezi.eternal.router.OriginalPicker
 import me.juhezi.eternal.service.AudioRecordService
 import me.juhezi.eternal.util.UriUtils
+import me.juhezi.orange.FFmpegBridge
+import me.juhezi.orange.LameBridge
 import java.io.IOException
 
 class MainActivity : BaseActivity() {
@@ -64,6 +69,29 @@ class MainActivity : BaseActivity() {
         btn_eternal_gpu_image.setOnClickListener {
             turnTo(EternalGPUImageActivity::class.java)
         }
+//        var ret: Deferred<Int> = async {
+//            remux()
+//        }
+        runBlocking {
+            // 没什么卵用貌似..
+            val result = async {
+                i("当前线程：${Thread.currentThread().name}")
+//                delay(1000) // 延时 1s
+//                remux()
+                0
+            }
+            i("当前线程：${Thread.currentThread().name}")
+            Toast.makeText(this@MainActivity, "Done,result is ${result.await()}", Toast.LENGTH_SHORT).show()
+        }
+        Thread {
+            LameBridge.encode()
+//            FFmpegBridge.remux("storage/emulated/0/demo.mp4", "storage/emulated/0/demo.flv")
+        }.start()
+    }
+
+    suspend fun remux(): Int {
+        delay(1000) // 延时 1s
+        return FFmpegBridge.remux("storage/emulated/0/demo.mp4", "storage/emulated/0/demo.flv")
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {

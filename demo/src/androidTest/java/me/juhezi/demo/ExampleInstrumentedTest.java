@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 
 import java.io.File;
 
+import me.juhezi.orange.FFmpegBridge;
 import me.juhezi.orange.LameBridge;
 
 import static org.junit.Assert.assertEquals;
@@ -40,6 +41,13 @@ public class ExampleInstrumentedTest {
         LameBridge.encode();
         LameBridge.destroy();
         assertTrue(new File("/storage/emulated/0/output.mp3").exists());
+    }
+
+    // error 无法加载 so
+    @Test
+    public void remuxTest() {
+        assertTrue(FFmpegBridge.remux("storage/emulated/0/demo.mp4", "storage/emulated/0/demo.flv") == 0
+                && new File("storage/emulated/0/demo.flv").exists());
     }
 
 }

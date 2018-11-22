@@ -19,6 +19,9 @@ android {
                 arguments '-DANDROID_STL=c++_static'
             }
         }
+        ndk {
+            abiFilters 'armeabi'
+        }
     }
 
     buildTypes {

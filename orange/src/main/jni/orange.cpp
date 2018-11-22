@@ -1,7 +1,9 @@
 #include <jni.h>
 #include "../cpp/media/mp3_encoder.hpp"
+#include "../cpp/media/remuxer.hpp"
 
 Mp3Encoder *encoder = NULL;
+Remuxer *remuxer = NULL;
 
 extern "C"
 JNIEXPORT jint JNICALL
@@ -42,4 +44,22 @@ Java_me_juhezi_orange_LameBridge_destroy(JNIEnv *env, jclass type) {
         encoder = NULL;
     }
 
+}
+
+extern "C"
+JNIEXPORT jint JNICALL
+Java_me_juhezi_orange_FFmpegBridge_remux(JNIEnv *env, jclass type, jstring inputFilePath_,
+                                         jstring outputFilePath_) {
+    const char *inputFilePath = env->GetStringUTFChars(inputFilePath_, 0);
+    const char *outputFilePath = env->GetStringUTFChars(outputFilePath_, 0);
+
+    int ret;
+
+    if (!remuxer) {
+        remuxer = new Remuxer();
+    }
+    ret = remuxer->Start(inputFilePath, outputFilePath);
+    env->ReleaseStringUTFChars(inputFilePath_, inputFilePath);
+    env->ReleaseStringUTFChars(outputFilePath_, outputFilePath);
+    return ret;
 }

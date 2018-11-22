@@ -19,7 +19,7 @@ add_library(avutil
         IMPORTED)
 set_target_properties(avutil
         PROPERTIES IMPORTED_LOCATION
-        ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi/libavutil.so)
+        ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi/libavutil.so.55)
 
 add_library(swresample
         SHARED
@@ -79,6 +79,7 @@ add_library(
         src/main/cpp/util/open_gl_util.cpp
         src/main/cpp/gl/gpu_image.cpp
         src/main/cpp/media/mp3_encoder.cpp
+        src/main/cpp/media/remuxer.cpp
         ${SRC_LIST})
 
 find_library(
