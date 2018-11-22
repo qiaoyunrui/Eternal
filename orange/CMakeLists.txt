@@ -73,14 +73,12 @@ set_target_properties(postproc
 add_library(
         orange
         SHARED
-        src/main/cpp/mp3_encoder.cpp
-        src/main/cpp/ffmpeg_decoder/accompany_decoder.cpp
-        src/main/cpp/ffmpeg_decoder/accompany_decoder_controller.cpp
         src/main/jni/orange.cpp
-        src/main/jni/GpuImageJNI.cpp
-        src/main/cpp/common/CommonTools.h
-        src/main/cpp/util/OpenGLUtil.cpp
-        src/main/cpp/gl/GPUImage.cpp
+        src/main/jni/gpu_image_jni.cpp
+        src/main/cpp/common/common_tools.h
+        src/main/cpp/util/open_gl_util.cpp
+        src/main/cpp/gl/gpu_image.cpp
+        src/main/cpp/media/mp3_encoder.cpp
         ${SRC_LIST})
 
 find_library(

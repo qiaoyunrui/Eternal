@@ -6,7 +6,7 @@
 #define ETERNAL_MP3_ENCODER_HPP
 
 #include <cstdio>
-#include <lame.h>
+#include "../lame/lame.h"
 
 class Mp3Encoder {
 private:

@@ -1,5 +1,5 @@
 #include <jni.h>
-#include "../cpp/mp3_encoder.hpp"
+#include "../cpp/media/mp3_encoder.hpp"
 
 Mp3Encoder *encoder = NULL;
 

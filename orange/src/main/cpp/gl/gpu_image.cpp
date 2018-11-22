@@ -2,7 +2,7 @@
 // Created by yunrui on 2018/11/15.
 //
 
-#include "GPUImage.hpp"
+#include "gpu_image.hpp"
 
 //GLfloat GPUImage::vertices[] = {
 //        -0.5f, -0.5f, 0.0f,

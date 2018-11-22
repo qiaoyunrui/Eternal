@@ -2,7 +2,7 @@
 // Created by yunrui on 2018/11/15.
 //
 
-#include "OpenGLUtil.hpp"
+#include "open_gl_util.hpp"
 
 const int MAX_DEBUG_INFO_LEN = 4096;
 
