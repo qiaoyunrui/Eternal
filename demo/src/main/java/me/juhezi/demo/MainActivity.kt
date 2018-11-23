@@ -25,7 +25,6 @@ import me.juhezi.eternal.router.OriginalPicker
 import me.juhezi.eternal.service.AudioRecordService
 import me.juhezi.eternal.util.UriUtils
 import me.juhezi.orange.FFmpegBridge
-import me.juhezi.orange.LameBridge
 import java.io.IOException
 
 class MainActivity : BaseActivity() {
@@ -69,9 +68,6 @@ class MainActivity : BaseActivity() {
         btn_eternal_gpu_image.setOnClickListener {
             turnTo(EternalGPUImageActivity::class.java)
         }
-//        var ret: Deferred<Int> = async {
-//            remux()
-//        }
         runBlocking {
             // 没什么卵用貌似..
             val result = async {
@@ -84,7 +80,7 @@ class MainActivity : BaseActivity() {
             Toast.makeText(this@MainActivity, "Done,result is ${result.await()}", Toast.LENGTH_SHORT).show()
         }
         Thread {
-            LameBridge.encode()
+//            LameBridge.encode()
 //            FFmpegBridge.remux("storage/emulated/0/demo.mp4", "storage/emulated/0/demo.flv")
         }.start()
     }

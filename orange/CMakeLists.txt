@@ -19,7 +19,7 @@ add_library(avutil
         IMPORTED)
 set_target_properties(avutil
         PROPERTIES IMPORTED_LOCATION
-        ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi/libavutil.so.55)
+        ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi/libavutil.so)
 
 add_library(swresample
         SHARED

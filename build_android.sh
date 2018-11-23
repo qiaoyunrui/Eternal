@@ -1,5 +1,5 @@
 #!/bin/bash
-NDK=/home/skyloong/Downloads/android-ndk-r15c
+NDK=/Users/shixi_yunrui/Developer/android-ndk-r15c/
 PLATFORM=$NDK/platforms/android-19/arch-arm/
 PREBUILT=$NDK/toolchains/arm-linux-androideabi-4.9/prebuilt
 function build_one
@@ -21,6 +21,7 @@ function build_one
 CPU=arm
 PREFIX=$(pwd)/android/$CPU
 ADDI_CFLAGS="-marm"
+make clean
 build_one
 make
 make install
