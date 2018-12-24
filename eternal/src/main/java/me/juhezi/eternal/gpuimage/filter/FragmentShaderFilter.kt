@@ -36,8 +36,8 @@ class FragmentShaderFilter :
         i("uResolutionLocation: $uResolutionLocation\tprogram: $program")
     }
 
-    override fun onDraw(textureId: Int, cubeBuffer: FloatBuffer, textureBuffer: FloatBuffer) {
-        super.onDraw(textureId, cubeBuffer, textureBuffer)
+    override fun onDraw(textureId: Int, cubeBuffer: FloatBuffer, textureBuffer: FloatBuffer, inputMatrix: FloatArray?) {
+        super.onDraw(textureId, cubeBuffer, textureBuffer, inputMatrix)
         glUniform2f(uResolutionLocation, width.toFloat(), height.toFloat())
         i("resolution errorCode: ${glGetError()}")
         glUniform1f(uTimeLocation, System.currentTimeMillis() / 1000.0f)

@@ -38,10 +38,10 @@ class EternalGPUImageActivity : BaseActivity() {
         filter.resetFragmentShader(buildRepeatFragmentShader())
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == 0x123) {
-                val uri = data.data
+                val uri = data?.data
                 if (uri != null) {
                     val path = UriUtils.getPathFromUri(this, uri)
                     logi("onActivityResult: 文件路径： $path")

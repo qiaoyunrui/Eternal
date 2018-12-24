@@ -2,6 +2,7 @@ package me.juhezi.eternal.gpuimage
 
 import android.opengl.GLES20
 import android.opengl.GLES20.*
+import android.opengl.Matrix
 import me.juhezi.eternal.gpuimage.helper.ShaderHelper
 import java.nio.FloatBuffer
 
@@ -13,9 +14,10 @@ open class EternalGPUImageFilter(protected var vertexShader: String = NO_FILTER_
         val NO_FILTER_VERTEX_SHADER = """
             attribute vec4 position;
             attribute vec4 inputTextureCoordinate;
+            uniform mat4 uMatrix;
             varying vec2 textureCoordinate;
             void main() {
-                gl_Position = position;
+                gl_Position = uMatrix * position;
                 textureCoordinate = inputTextureCoordinate.xy;
             }
         """.trimIndent()
@@ -31,6 +33,8 @@ open class EternalGPUImageFilter(protected var vertexShader: String = NO_FILTER_
     protected var program = 0
     protected var aPositionLocation = 0
     protected var aInputTextureCoordinateLocation = 0
+
+    protected var uMatrixPosition = 0
 
     protected var uInputImageTextureLocation = 0
 
@@ -60,6 +64,7 @@ open class EternalGPUImageFilter(protected var vertexShader: String = NO_FILTER_
         aInputTextureCoordinateLocation = GLES20.glGetAttribLocation(program,
                 "inputTextureCoordinate")
 
+        uMatrixPosition = GLES20.glGetUniformLocation(program, "uMatrix")
         uInputImageTextureLocation = GLES20.glGetUniformLocation(program,
                 "inputImageTexture")
     }
@@ -69,7 +74,7 @@ open class EternalGPUImageFilter(protected var vertexShader: String = NO_FILTER_
     open fun onDestroy() {}
 
     open fun onDraw(textureId: Int, cubeBuffer: FloatBuffer,
-                    textureBuffer: FloatBuffer) {
+                    textureBuffer: FloatBuffer, inputMatrix: FloatArray? = null) {
         glUseProgram(program)
         if (!isInitialized) {
             return
@@ -91,6 +96,14 @@ open class EternalGPUImageFilter(protected var vertexShader: String = NO_FILTER_
             glBindTexture(GL_TEXTURE_2D, textureId)
             glUniform1i(uInputImageTextureLocation, 0)
         }
+        val matrix: FloatArray
+        if (inputMatrix == null) {
+            matrix = FloatArray(16)
+            Matrix.setIdentityM(matrix, 0)
+        } else {
+            matrix = inputMatrix
+        }
+        glUniformMatrix4fv(uMatrixPosition, 1, false, matrix, 0)
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4)
         glDisableVertexAttribArray(aPositionLocation)
         glDisableVertexAttribArray(aInputTextureCoordinateLocation)

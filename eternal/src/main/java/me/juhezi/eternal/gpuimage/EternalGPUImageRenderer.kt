@@ -1,7 +1,6 @@
 package me.juhezi.eternal.gpuimage
 
 import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.opengl.GLES20
 import android.opengl.GLES20.*
 import android.opengl.GLSurfaceView
@@ -43,7 +42,6 @@ class EternalGPUImageRenderer(var currentFilter: EternalGPUImageFilter)
     private var outputHeight: Int = 0
     private var imageWidth: Int = 0
     private var imageHeight: Int = 0
-    private var addedPadding: Int = 0
 
     init {
         runOnDrawQueue = LinkedList()
@@ -83,23 +81,19 @@ class EternalGPUImageRenderer(var currentFilter: EternalGPUImageFilter)
 
     fun setImageBitmap(bitmap: Bitmap, recycle: Boolean = true) {
         runOnDraw(Runnable {
-            var resizeBitmap: Bitmap? = null
-            if (bitmap.width % 2 == 1) {
-                resizeBitmap = Bitmap.createBitmap(bitmap.width + 1,
-                        bitmap.height,
-                        Bitmap.Config.ARGB_8888)
-                val canvas = Canvas(resizeBitmap)
-                canvas.drawARGB(0x00, 0x00, 0x00, 0x00)
-                canvas.drawBitmap(bitmap, 0f, 0f, null)
-                addedPadding = 1
-            } else {
-                addedPadding = 0
-            }
-            textureId = TextureHelper.loadTexture(resizeBitmap ?: bitmap, recycle)
-            resizeBitmap?.recycle()
+            textureId = TextureHelper.loadTexture(bitmap, recycle)
             imageWidth = bitmap.width
             imageHeight = bitmap.height
+            adjustImageScaling()
         })
+    }
+
+    private fun adjustImageScaling() {
+        if (outputHeight == 0 || imageHeight == 0) {
+            return
+        }
+        // 首先计算图像的宽高比
+        // todo
     }
 
     fun runOnDraw(runnable: Runnable) {

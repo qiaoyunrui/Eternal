@@ -38,7 +38,7 @@ class TimeActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_time)
         toolBarVisibility = false
-        destination.time = Date(2018 - 1900, 11, 22)
+        destination.time = Date(2019 - 1900, 11, 22)
         tv_time_remaining.typeface = buildTypeface {
             path = 荷包鼓鼓
             assetManager = assets
